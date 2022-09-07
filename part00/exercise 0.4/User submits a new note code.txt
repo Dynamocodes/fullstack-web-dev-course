@@ -1,8 +1,9 @@
-title User submits a new note
+title User submits a new note (SPA)
 
 note right of Browser: The user clicks the submit button
-Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_notenote over Server:
-note over Server
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note over Server:
 server adds an entry to the json file
 end note
 
