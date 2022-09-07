@@ -1,0 +1,13 @@
+title User submits a new note (SPA)
+
+note over Browser: The user clicks the submit button
+
+note over Browser: The browser applies changes to the page by executing js-code
+
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over Server:
+server adds an entry to the json file
+end note
+
+Server-->Browser: "note created"
