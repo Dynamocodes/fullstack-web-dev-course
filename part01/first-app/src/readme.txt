@@ -7,3 +7,6 @@ Again could've used an array to store all of the objects.
 
 *** exercise 1.4
 Ignore both of the comments above, I should've seen it coming :)
+
+*** exercise 1.5
+Created an additional Course component. It is not necessary but I thought the code would look cleaner that way.
