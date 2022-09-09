@@ -35,7 +35,7 @@ const Statistics = (props) => {
 
   if(hasNoFeedback(props.stats)){
     return(
-      <div>no feedback yet</div>
+      <div>No feedback given</div>
     )
   }
   return(
