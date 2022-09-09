@@ -30,11 +30,30 @@ const App = () => {
   const goodText = "good"
   const neutralText = "neutral"
   const badText = "bad"
+  const allText = "all"
+  const averageText = "average"
+  const positiveText = "positive" 
+
+  const goodIntVal = 1
+  const neutralIntVal = 0
+  const badIntVal = -1
 
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+
+  const countAll = () => {
+    return good + neutral + bad
+  }
+  
+  const calcAverage = () => {
+    return countAll() === 0 ? 0 : ((good * goodIntVal + neutral * neutralIntVal + bad * badIntVal)/countAll())
+  }
+
+  const calcPositive = () => {
+    return countAll() === 0 ? 0 : (good * 100)/countAll()
+  }
 
   return (
     <div>
@@ -47,6 +66,9 @@ const App = () => {
       <Display text={goodText} value={good}/>
       <Display text={neutralText} value={neutral}/>
       <Display text={badText} value={bad}/>
+      <Display text={allText} value={countAll()}/>
+      <Display text={averageText} value={calcAverage()}/>
+      <Display text={positiveText } value={calcPositive()+"%"}/>
 
     </div>
   )
