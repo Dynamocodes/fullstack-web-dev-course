@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 const Button = (props) => {
-    console.log("clicked")
     return(
       <button onClick={props.handleClick}>
         {props.text}
@@ -23,12 +22,24 @@ const Display = (props) => {
   )
 }
 
-const Statistics = (props) => {
-  const statistics = "statistics"
+const hasNoFeedback = (arr) => {
+  for(let i = 0; i < arr.length; i++){
+    if(arr[i].value !== 0){
+      return false
+    }
+  }
+  return true
+}
 
-  return (
+const Statistics = (props) => {
+
+  if(hasNoFeedback(props.stats)){
+    return(
+      <div>no feedback yet</div>
+    )
+  }
+  return(
     <div>
-      <Title text={statistics}/>
       <Display text={props.stats[0].name} value={props.stats[0].value}/>
       <Display text={props.stats[1].name} value={props.stats[1].value}/>
       <Display text={props.stats[2].name} value={props.stats[2].value}/>
@@ -41,8 +52,8 @@ const Statistics = (props) => {
 
 const App = () => {
   const feedback = "give feedback"
+  const statistics = "statistics"
   
-
   const goodText = "good"
   const neutralText = "neutral"
   const badText = "bad"
@@ -104,6 +115,7 @@ const App = () => {
       <Button handleClick={() => setGood(good + 1)} text={goodText}/>
       <Button handleClick={() => setNeutral(neutral + 1)} text={neutralText}/>
       <Button handleClick={() => setBad(bad + 1)} text={badText}/>
+      <Title text={statistics}/>
       <Statistics stats={stats}/>
 
     </div>
