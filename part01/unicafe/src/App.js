@@ -23,9 +23,25 @@ const Display = (props) => {
   )
 }
 
+const Statistics = (props) => {
+  const statistics = "statistics"
+
+  return (
+    <div>
+      <Title text={statistics}/>
+      <Display text={props.stats[0].name} value={props.stats[0].value}/>
+      <Display text={props.stats[1].name} value={props.stats[1].value}/>
+      <Display text={props.stats[2].name} value={props.stats[2].value}/>
+      <Display text={props.stats[3].name} value={props.stats[3].value}/>
+      <Display text={props.stats[4].name} value={props.stats[4].value}/>
+      <Display text={props.stats[5].name } value={props.stats[5].value+"%"}/>
+    </div>
+  )
+}
+
 const App = () => {
   const feedback = "give feedback"
-  const statistics = "statistics"
+  
 
   const goodText = "good"
   const neutralText = "neutral"
@@ -55,20 +71,40 @@ const App = () => {
     return countAll() === 0 ? 0 : (good * 100)/countAll()
   }
 
+  const stats = [
+    {
+      name: goodText,
+      value: good
+    },
+    {
+      name: neutralText,
+      value: neutral
+    },
+    {
+      name: badText,
+      value: bad
+    },
+    {
+      name: allText,
+      value: countAll()
+    },
+    {
+      name: averageText,
+      value: calcAverage()
+    },
+    {
+      name: positiveText,
+      value: calcPositive()
+    }
+  ]
+
   return (
     <div>
       <Title text={feedback}/>
       <Button handleClick={() => setGood(good + 1)} text={goodText}/>
       <Button handleClick={() => setNeutral(neutral + 1)} text={neutralText}/>
       <Button handleClick={() => setBad(bad + 1)} text={badText}/>
-
-      <Title text={statistics}/>
-      <Display text={goodText} value={good}/>
-      <Display text={neutralText} value={neutral}/>
-      <Display text={badText} value={bad}/>
-      <Display text={allText} value={countAll()}/>
-      <Display text={averageText} value={calcAverage()}/>
-      <Display text={positiveText } value={calcPositive()+"%"}/>
+      <Statistics stats={stats}/>
 
     </div>
   )
