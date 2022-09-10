@@ -14,7 +14,7 @@ const Title = (props) => {
   )
 }
 
-const Display = (props) => {
+const StatisticLine = (props) => {
   return(
     <div>
       {props.text} {props.value}
@@ -40,12 +40,12 @@ const Statistics = (props) => {
   }
   return(
     <div>
-      <Display text={props.stats[0].name} value={props.stats[0].value}/>
-      <Display text={props.stats[1].name} value={props.stats[1].value}/>
-      <Display text={props.stats[2].name} value={props.stats[2].value}/>
-      <Display text={props.stats[3].name} value={props.stats[3].value}/>
-      <Display text={props.stats[4].name} value={props.stats[4].value}/>
-      <Display text={props.stats[5].name } value={props.stats[5].value+"%"}/>
+      <StatisticLine text={props.stats[0].name} value={props.stats[0].value}/>
+      <StatisticLine text={props.stats[1].name} value={props.stats[1].value}/>
+      <StatisticLine text={props.stats[2].name} value={props.stats[2].value}/>
+      <StatisticLine text={props.stats[3].name} value={props.stats[3].value}/>
+      <StatisticLine text={props.stats[4].name} value={props.stats[4].value}/>
+      <StatisticLine text={props.stats[5].name } value={props.stats[5].value+"%"}/>
     </div>
   )
 }
