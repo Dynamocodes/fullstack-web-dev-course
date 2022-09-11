@@ -5,7 +5,12 @@ const Button = (props) => {
     <button onClick={props.handleClick}>{props.text}</button>
   )
 }
-  
+
+const VoteDisplay = (props) => {
+  return(
+    <p>has {props.value} votes</p>
+  )
+}
   
 
 function getRndInteger(max) {
@@ -24,11 +29,28 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
+
   const nextText = "next anecdote"
+  const voteText = "vote"
+
+  const voteSelected = () => {
+    const copy =  [...votes]
+    copy[selected]++
+    setVotes(copy)
+  }
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
-    <Button handleClick={()=> setSelected(getRndInteger(anecdotes.length - 1))} text={nextText}/>
+      <VoteDisplay value={votes[selected]}/>
+      <Button handleClick={voteSelected} text={voteText}/>
+      <Button handleClick={()=> setSelected(getRndInteger(anecdotes.length - 1))} text={nextText}/>
+
+      <h1>Anecdote with the most votes</h1>
+      <p>{anecdotes[votes.indexOf(Math.max(...votes))]}</p>
+      <VoteDisplay value={Math.max(...votes)}/>
     </div>
   )
 }
