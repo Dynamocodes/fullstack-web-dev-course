@@ -8,4 +8,6 @@ already done
 
 *** exercise 2.3
 already done
-Ò
+
+*** exercise 2.5
+Ended up creating a new component for every single component that is used, including Course. 
