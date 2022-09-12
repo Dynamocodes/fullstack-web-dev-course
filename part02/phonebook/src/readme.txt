@@ -19,3 +19,6 @@ Still no safeguards.
 because I use the number as the key (which makes more sense anyways in my opinion), 
 you get the alert only if you use the same number more than once 
 (you can use the same name for all the entries as long as they have different numbers).
+
+*** exercise 2.11
+The behaviour of the app is now as expected (no name duplicates) since we are now provided with proper data (a person has an id).
