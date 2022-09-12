@@ -1,10 +1,7 @@
 import { useState } from 'react'
-
-const Person = (props) => {
-  return(
-    <p>{props.person.name} {props.person.number}</p>
-  )
-}
+import Filter from './components/Filter'
+import Persons from './components/Persons'
+import AddPerson from './components/AddPerson'
 
 const App = () => {
 
@@ -19,14 +16,14 @@ const App = () => {
     person => person.name.toLowerCase().includes(newFilter.toLowerCase()) || person.number.toLowerCase().includes(newFilter)
   )
 
+
   const handleNameChange = (event) => setNewName(event.target.value)
 
   const handleNumberChange = (event) => setNewNumber(event.target.value)
 
-  const handleFilterChange = (event) => {
-    setNewFilter(event.target.value)
-  }
+  const handleFilterChange = (event) => setNewFilter(event.target.value)
   
+
   const addEntry = (event) => {
     event.preventDefault()
     const personObject = {name : newName, number: newNumber}
@@ -35,30 +32,38 @@ const App = () => {
     }else{
       alert(`${newNumber} is already used in the phonebook`)
     }
-    
     setNewName("")
     setNewNumber("")
     setNewFilter("")
-    
   }
+
+  const form = {
+    onSubmit: addEntry,
+    fields: [
+      {
+        label: 'name',
+        initialValue: newName,
+        handleChange: handleNameChange,
+        id : 1 
+      },
+      {
+        label: 'number',
+        initialValue: newNumber,
+        handleChange: handleNumberChange,
+        id : 2
+      }
+    ]
+  }
+  
   return (
+
     <div>
       <h2>Phonebook</h2>
-      filter shown with <input value={newFilter} onChange={handleFilterChange}/>
+      <Filter filterValue={newFilter} handleFilterChange={handleFilterChange}/>
       <h2>add a new</h2>
-      <form onSubmit={addEntry}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange}/> 
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <AddPerson form={form}/>
       <h2>Numbers</h2>
-      {personsToShow.map(person => <Person key={person.numberÒ} person={person}/>)}
+      <Persons persons={personsToShow}/>
     </div>
   )
 }
