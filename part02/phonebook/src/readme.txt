@@ -10,3 +10,12 @@ but different phone numbers (and vice versa althought this is arguably wrong sin
 using the same number except for non-mobile phones which tend to disapear nowadays haha), which should be fine in the case 
 of multiple sim cards for example. 
 Also I could've used the phone number as the key instead of the name, because the number is indeed unique.
+
+*** exercise 2.9
+I now use the phone number as the key which causes less problems in terms of ordering the entries 
+(I'd rather have multiple numbers associated to a single person than vice versa).
+Still no safeguards.
+/!\ ===================/!\ 
+because I use the number as the key (which makes more sense anyways in my opinion), 
+you get the alert only if you use the same number more than once 
+(you can use the same name for all the entries as long as they have different numbers).
