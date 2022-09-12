@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import _ from "lodash"
 
 const Person = (props) => {
   return(
@@ -18,7 +19,12 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
     const personObject = {name : newName}
-    setPersons(persons.concat(personObject))
+    if(persons.filter(person => _.isEqual(personObject, person)).length === 0 ){
+      setPersons(persons.concat(personObject))
+    }else{
+      alert(`${newName} is already added to phonebook`)
+    }
+    
     setNewName("")
     
   }
