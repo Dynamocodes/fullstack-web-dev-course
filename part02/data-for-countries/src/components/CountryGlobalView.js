@@ -15,7 +15,7 @@ const CountryGlobalView = (props) => {
     }else if(props.countries.length < 10){
         return(
             <div>
-                <CountryList countries={props.countries}/>
+                <CountryList countries={props.countries} handleClick={props.handleClick}/>
             </div>
         )
     }else{
