@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
-import Persons from './components/Persons'
+import Person from './components/Person'
 import AddPerson from './components/AddPerson'
 import contactServices from './services/contacts'
+import _ from 'lodash'
 
 const App = () => {
   /* App states */
@@ -20,6 +21,15 @@ const App = () => {
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const handleFilterChange = (event) => setNewFilter(event.target.value)
+  const removeHandler = (id) => {
+    contactServices
+    .remove(id)
+    .then(returnedPerson =>{
+      const personToRemove = persons.find(p => p.id === id)
+      const personsCopy = [...persons]
+      setPersons(personsCopy.filter(p => !_.isEqual(p, personToRemove)))
+    })
+  }
 
   /* adding a new contact in the phonebook */
   const addEntry = (event) => {
@@ -27,7 +37,7 @@ const App = () => {
     const personObject = {
       name : newName, 
       number: newNumber, 
-      id: persons.length+1}
+      id: Math.max(persons.map(person => person.id))+1}
     if(persons.filter(person => person.name === newName ).length === 0 ){
       contactServices.create(personObject).then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
@@ -71,7 +81,9 @@ const App = () => {
       <h2>add a new</h2>
       <AddPerson form={form}/>
       <h2>Numbers</h2>
-      <Persons persons={personsToShow}/>
+      {personsToShow.map(person => 
+        <Person  key={person.id} person={person} removeHandler={()=>removeHandler(person.id)}/>
+      )}
     </div>
   )
 }
