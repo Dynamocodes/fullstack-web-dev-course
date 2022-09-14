@@ -12,11 +12,7 @@ function App() {
     axios
       .get('https://restcountries.com/v3.1/all')
       .then(response => {
-        const data = response.data
-        data.forEach(country => {
-          country.show = false
-        });
-        setCountries(data)
+        setCountries(response.data)
       })
   }
   useEffect(hook, [])
@@ -27,14 +23,7 @@ function App() {
   const handleSearchChange = (event) =>{setNewSearch(event.target.value)}
 
   const handleClick = (event) => {
-    const copy = [...countries].map(country => {
-      if(country.name.common === event.target.id){
-        country.show = !country.show
-      }
-      return country
-    })
-    setCountries(copy)
-    
+    setNewSearch(event.target.id)
   }
 
   return (
