@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react'
 
 const CountryView = (props) => {
 
-    const API_KEY = 'f27da2499eac1bcd7e09636ba5ca2c7c'
+    const API_KEY = process.env.REACT_APP_API_KEY
+    console.log(API_KEY)
     const KELVIN_OFFSET = 273.15
 
     /* initiating the useState with a "template" weather object */
