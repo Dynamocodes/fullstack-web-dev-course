@@ -22,13 +22,15 @@ const App = () => {
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const handleFilterChange = (event) => setNewFilter(event.target.value)
   const removeHandler = (id) => {
-    contactServices
-    .remove(id)
-    .then(returnedPerson =>{
-      const personToRemove = persons.find(p => p.id === id)
-      const personsCopy = [...persons]
-      setPersons(personsCopy.filter(p => !_.isEqual(p, personToRemove)))
-    })
+    if(window.confirm(`remove ${persons.find(p => p.id === id).name}?`)){
+      contactServices
+        .remove(id)
+        .then(returnedPerson =>{
+          const personToRemove = persons.find(p => p.id === id)
+          const personsCopy = [...persons]
+          setPersons(personsCopy.filter(p => !_.isEqual(p, personToRemove)))
+      })
+    }
   }
 
   /* adding a new contact in the phonebook */
@@ -42,9 +44,18 @@ const App = () => {
       contactServices.create(personObject).then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
       })
-      setPersons(persons.concat(personObject))
     }else{
-      alert(`${newName} is already in phonebook`)
+      if(window.confirm(`${newName} is already added in phonebook, replace the old number with a new one?`)){
+        const personToUpdate = persons.find(p => p.name === newName)
+        const updatedPerson = {...personToUpdate, number: newNumber}
+        const id = personToUpdate.id
+        contactServices
+        .update(id, updatedPerson)
+        .then((returnedPerson) => {
+          setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
+        })
+      }
+      
     }
     setNewName("")
     setNewNumber("")
