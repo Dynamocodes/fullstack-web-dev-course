@@ -2,33 +2,36 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import AddPerson from './components/AddPerson'
-import axios from 'axios'
+import contactServices from './services/contacts'
 
 const App = () => {
-
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567' }
-  ]) 
+  /* App states */
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  
+
+  /* defining which individuals to show based on filter value */
   const personsToShow = newFilter === "" ? persons : persons.filter(
     person => person.name.toLowerCase().includes(newFilter.toLowerCase()) || person.number.toLowerCase().includes(newFilter)
   )
 
-
+  /* onChange handlers for the fields of the form and the filter */
   const handleNameChange = (event) => setNewName(event.target.value)
-
   const handleNumberChange = (event) => setNewNumber(event.target.value)
-
   const handleFilterChange = (event) => setNewFilter(event.target.value)
-  
 
+  /* adding a new contact in the phonebook */
   const addEntry = (event) => {
     event.preventDefault()
-    const personObject = {name : newName, number: newNumber}
+    const personObject = {
+      name : newName, 
+      number: newNumber, 
+      id: persons.length+1}
     if(persons.filter(person => person.name === newName ).length === 0 ){
+      contactServices.create(personObject).then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+      })
       setPersons(persons.concat(personObject))
     }else{
       alert(`${newName} is already in phonebook`)
@@ -38,13 +41,9 @@ const App = () => {
     setNewFilter("")
   }
 
+  /* getting existing entries of the phonebook from the server */
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
-  }, [])
+    contactServices.getAll().then(allPersons => setPersons(allPersons))}, [])
 
   const form = {
     onSubmit: addEntry,
