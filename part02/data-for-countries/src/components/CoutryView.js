@@ -91,6 +91,7 @@ const CountryView = (props) => {
             <h2>Weather in {props.country.capital}</h2>
             <div>temperature {newWeather.main.temp - KELVIN_OFFSET} Celsius</div>
             <img src={'http://openweathermap.org/img/wn/' + newWeather.weather[0].icon + '@2x.png'}/>
+            <div>wind {newWeather.wind.speed} m/s</div>
         </div>
     )
 }
