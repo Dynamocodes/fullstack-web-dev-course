@@ -3,14 +3,35 @@ import Filter from './components/Filter'
 import Person from './components/Person'
 import AddPerson from './components/AddPerson'
 import contactServices from './services/contacts'
+import Notification from './components/Notification'
 import _ from 'lodash'
 
 const App = () => {
+
+  const removeNotification = "removeNotification"
+  const updateNotification = "updateNotification"
+  const addNotification = "addNotification"
+  const errorNotification = "errorNotification"
+
+  const sendErrorNotification = (person) => {
+    setNotification(
+      {
+        message: `It seems like ${person.name} has already been deleted from the server`,
+        type: errorNotification
+      }
+    )
+    setTimeout(() => {
+      setNotification({message: null, type: null})
+    }, 5000)
+    setPersons(persons.filter(p => p.id !== person.id))
+  }
+
   /* App states */
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [notification, setNotification] = useState({message: null, type: "null"})
 
   /* defining which individuals to show based on filter value */
   const personsToShow = newFilter === "" ? persons : persons.filter(
@@ -29,6 +50,17 @@ const App = () => {
           const personToRemove = persons.find(p => p.id === id)
           const personsCopy = [...persons]
           setPersons(personsCopy.filter(p => !_.isEqual(p, personToRemove)))
+
+          setNotification(
+            {
+            message: `${personToRemove.name} was removed from the server`,
+            type: removeNotification
+            }
+          )
+          setTimeout(()=>setNotification({message: null, type:"null"}), 5000)
+      })
+      .catch(err =>{
+        sendErrorNotification(persons.find(p => p.id === id))
       })
     }
   }
@@ -43,6 +75,13 @@ const App = () => {
     if(persons.filter(person => person.name === newName ).length === 0 ){
       contactServices.create(personObject).then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        setNotification(
+          {
+          message: `${returnedPerson.name} was added to the server's data`,
+          type: addNotification
+          }
+        )
+        setTimeout(()=>setNotification({message: null, type:"null"}), 5000)
       })
     }else{
       if(window.confirm(`${newName} is already added in phonebook, replace the old number with a new one?`)){
@@ -53,6 +92,13 @@ const App = () => {
         .update(id, updatedPerson)
         .then((returnedPerson) => {
           setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
+          setNotification({
+            message: `${returnedPerson.name} was updated on the server`,
+            type: updateNotification})
+          setTimeout(()=>setNotification({message: null, type:"notification"}), 5000)
+        })
+        .catch(err =>{
+          sendErrorNotification(persons.find(p => p.id === id))
         })
       }
       
@@ -88,6 +134,7 @@ const App = () => {
 
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification}/>
       <Filter filterValue={newFilter} handleFilterChange={handleFilterChange}/>
       <h2>add a new</h2>
       <AddPerson form={form}/>
