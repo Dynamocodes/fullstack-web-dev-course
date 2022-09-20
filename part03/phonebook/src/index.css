@@ -1,0 +1,23 @@
+.addNotification,.removeNotification,.updateNotification{
+    color: rgb(7, 154, 41);
+    background: lightgray;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: rgb(7, 154, 41);;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.errorNotification{
+    color: rgb(255, 0, 0);
+    background: lightgray;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: rgb(255, 0, 0);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+h2{
+    color: green
+}
