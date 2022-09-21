@@ -13,17 +13,15 @@ const App = () => {
   const addNotification = "addNotification"
   const errorNotification = "errorNotification"
 
-  const sendErrorNotification = (person) => {
-    setNotification(
+  const sendErrorNotification = (message) => {
+      setNotification(
       {
-        message: `It seems like ${person.name} has already been deleted from the server`,
+        message: message,
         type: errorNotification
-      }
-    )
-    setTimeout(() => {
-      setNotification({message: null, type: null})
-    }, 5000)
-    setPersons(persons.filter(p => p.id !== person.id))
+      })
+      setTimeout(() => {
+        setNotification({message: null, type: null})
+      }, 5000)
   }
 
   /* App states */
@@ -60,7 +58,7 @@ const App = () => {
           setTimeout(()=>setNotification({message: null, type:"null"}), 5000)
       })
       .catch(err =>{
-        sendErrorNotification(persons.find(p => p.id === id))
+        sendErrorNotification(`${persons.find(p => p.id === id).name} was already removed from the server`)
       })
     }
   }
@@ -73,7 +71,9 @@ const App = () => {
       number: newNumber, 
       id: Math.max(persons.map(person => person.id))+1}
     if(persons.filter(person => person.name === newName ).length === 0 ){
-      contactServices.create(personObject).then(returnedPerson => {
+      contactServices
+      .create(personObject)
+      .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
         setNotification(
           {
@@ -82,6 +82,8 @@ const App = () => {
           }
         )
         setTimeout(()=>setNotification({message: null, type:"null"}), 5000)
+      }).catch(err =>{
+        sendErrorNotification(err.response.data.error)
       })
     }else{
       if(window.confirm(`${newName} is already added in phonebook, replace the old number with a new one?`)){
@@ -98,7 +100,7 @@ const App = () => {
           setTimeout(()=>setNotification({message: null, type:"notification"}), 5000)
         })
         .catch(err =>{
-          sendErrorNotification(persons.find(p => p.id === id))
+          sendErrorNotification(`${persons.find(p => p.id === id).name} was already removed from the server`)
         })
       }
       
