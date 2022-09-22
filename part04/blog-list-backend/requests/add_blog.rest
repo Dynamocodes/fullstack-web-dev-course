@@ -2,8 +2,19 @@ POST http://localhost:3003/api/blogs/
 content-type: application/json
 
 {
-    "title": "Elias Hietanen",
-    "author": "2345456456456",
+    "title": "My awesome title",
+    "author": "Elias Hietanen",
     "url": "http://myblogs.com/SDFGSF/",
     "likes": 6
+}
+
+###
+POST http://localhost:3003/api/blogs/
+content-type: application/json
+
+{
+    "title": "My other cool title",
+    "author": "Elien Hietanas",
+    "url": "http://myblogs.com/QSDFFG/",
+    "likes": 17
 }
