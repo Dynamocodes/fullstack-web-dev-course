@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs/
+content-type: application/json
+
+{
+    "title": "Elias Hietanen",
+    "author": "2345456456456",
+    "url": "http://myblogs.com/SDFGSF/",
+    "likes": 6
+}
