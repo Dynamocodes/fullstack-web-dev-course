@@ -68,8 +68,8 @@ const App = () => {
     event.preventDefault()
     const personObject = {
       name : newName, 
-      number: newNumber, 
-      id: Math.max(persons.map(person => person.id))+1}
+      number: newNumber
+    }
     if(persons.filter(person => person.name === newName ).length === 0 ){
       contactServices
       .create(personObject)
@@ -100,7 +100,12 @@ const App = () => {
           setTimeout(()=>setNotification({message: null, type:"notification"}), 5000)
         })
         .catch(err =>{
-          sendErrorNotification(`${persons.find(p => p.id === id).name} was already removed from the server`)
+          if(err.response.status === 400){
+            sendErrorNotification(err.response.data.error)
+          }else if(err.response.status === 404){
+            sendErrorNotification(`${persons.find(p => p.id === id).name} was already removed from the server`)
+            setPersons(persons.filter(p => p.id !== id))
+          }
         })
       }
       
