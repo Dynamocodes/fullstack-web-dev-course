@@ -26,10 +26,25 @@ const mostBlogs = (blogs) => {
   }
 }
 
+const mostLikes = (blogs) => {
+  if(blogs.length === 0){
+    return null
+  }else{
+    const authors = [...new Set(blogs.map(b => b.author))]
+    const likesPerAuthor = {}
+    authors.forEach(a => {
+      likesPerAuthor[a] = blogs.reduce((amount, blog) => { return a === blog.author ? amount + blog.likes : amount }, 0 )
+    })
+    const maxKey = Object.keys(likesPerAuthor).reduce(function(a, b){ return likesPerAuthor[a] > likesPerAuthor[b] ? a : b });
+    return {author: maxKey, likes: likesPerAuthor[maxKey]}
+  }
+}
+
   
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
