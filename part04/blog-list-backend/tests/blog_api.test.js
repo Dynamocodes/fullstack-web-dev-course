@@ -82,7 +82,21 @@ test('the field id is defined in all of the blogs', async () => {
   const response = await api.get('/api/blogs')
   const blogs = response.body
   blogs.forEach(b => expect(b.id).toBeDefined())
+})
+
+test('a new blog is added to the database after a valid post request', async () => {
+  let blog = {
+    title: 'my cool title',
+    author: 'Elias Hietanen',
+    url: 'www.mycoolblogsit.com/lkjsdflk/',
+    likes: 4
+  }
+  await api.post('/api/blogs').send(blog).expect(201)
+  const getResponse = await api.get('/api/blogs')
+  titles = getResponse.body.map(b => b.title)
   
+  expect(titles).toContain(blog.title)
+  expect(getResponse.body.length).toBe(initialBlogs.length + 1)
 })
 
 
