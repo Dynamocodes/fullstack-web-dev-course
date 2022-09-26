@@ -78,6 +78,14 @@ test('the specific blog is within the returned blogs', async () => {
   expect(titles).toContain('React patterns')
 })
 
+test('the field id is defined in all of the blogs', async () => {
+  const response = await api.get('/api/blogs')
+  const blogs = response.body
+  blogs.forEach(b => expect(b.id).toBeDefined())
+  
+})
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
