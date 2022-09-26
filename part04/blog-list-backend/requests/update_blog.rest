@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/632c7da0427c6c90667dsdf6a0
+content-type: application/json
+
+{
+    "title": "My awesome title",
+    "author": "Elias Hietanen",
+    "url": "http://myblogs.com/SDFGSF/",
+    "likes": 30
+}

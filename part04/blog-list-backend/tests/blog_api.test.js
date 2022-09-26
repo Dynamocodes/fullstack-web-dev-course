@@ -107,7 +107,7 @@ describe('deletion of a note', () => {
   test('the proper note gets deleted if the note exists', async () => {
     const initialBlogs = await helper.blogsInDb()
     const blogToRemove = initialBlogs[0]
-    await api.delete(`/api/blogs/${blogToRemove.id}`)/expect(204)
+    await api.delete(`/api/blogs/${blogToRemove.id}`).expect(204)
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(initialBlogs.length - 1)
   })
@@ -117,6 +117,26 @@ describe('deletion of a note', () => {
     api.delete(`/api/blogs/${nonExistingId}`).expect(404)
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(initialBlogs.length)
+  })
+})
+
+describe('updating an existing blog', () => {
+  test('update the correct blog when the entered data is valid', async () => {
+    const initialBlogs = await helper.blogsInDb()
+    const blogToUpdate = {...initialBlogs[0]}
+    blogToUpdate.likes = 30
+    await api.put(`/api/blogs/${initialBlogs[0].id}`).send(blogToUpdate)
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd[0].likes).toBe(30)
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  })
+
+  test('update of a blog that does not exist returns 400', async () => {
+    const initialBlogs = await helper.blogsInDb()
+    const {id, ...blogToUpdate} = initialBlogs[0]
+    blogToUpdate.likes = 30
+    const nonExistingId = await helper.nonExistingId()
+    const updatedBlog = await api.put(`/api/blogs/${nonExistingId}`).send(blogToUpdate).expect(400)
   })
 })
 
