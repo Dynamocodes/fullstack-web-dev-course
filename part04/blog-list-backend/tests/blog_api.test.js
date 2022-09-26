@@ -107,9 +107,39 @@ test('likes are initilized to 0 if no value is given', async () => {
   }
   let postedBlog = await api.post('/api/blogs').send(blog).expect(201)
   let response = await api.get('/api/blogs')
-  console.log(postedBlog)
   expect(postedBlog.body.likes).toBe(0)
 })
+
+test('the title is mandatory', async () => {
+  let blog = {
+    author: 'Elien Hietanas',
+    url: 'www.mycoolblogsit.com/lkjsdflk/',
+  }
+  await api.post('/api/blogs').send(blog).expect(400)
+  let response = await api.get('/api/blogs')
+  expect(response.body.length).toBe(initialBlogs.length)
+})
+
+test('the url is mandatory', async () => {
+  let blog = {
+    title: 'my cool title',
+    author: 'Elien Hietanas'
+    
+  }
+  await api.post('/api/blogs').send(blog).expect(400)
+  let response = await api.get('/api/blogs')
+  expect(response.body.length).toBe(initialBlogs.length)
+})
+
+test('the title AND the url are mandatory', async () => {
+  let blog = {
+    author: 'Elien Hietanas'
+  }
+  await api.post('/api/blogs').send(blog).expect(400)
+  let response = await api.get('/api/blogs')
+  expect(response.body.length).toBe(initialBlogs.length)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
