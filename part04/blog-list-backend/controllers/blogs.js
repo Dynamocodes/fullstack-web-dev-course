@@ -12,12 +12,7 @@ blogsRouter.get('/', async (request, response, next) => {
 
 blogsRouter.post('/', async (request, response, next) => {
   let postedBlog = request.body
-  const blog = new Blog({
-    title: postedBlog.title,
-    author: postedBlog.author,
-    url: postedBlog.url,
-    likes: postedBlog.likes
-  })
+  const blog = new Blog(request.body)
   try {
     let returnedBlog = await blog.save()
     response.status(201).json(returnedBlog)

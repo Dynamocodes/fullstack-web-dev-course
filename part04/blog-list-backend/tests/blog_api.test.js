@@ -99,7 +99,17 @@ test('a new blog is added to the database after a valid post request', async () 
   expect(getResponse.body.length).toBe(initialBlogs.length + 1)
 })
 
-
+test('likes are initilized to 0 if no value is given', async () => {
+  let blog = {
+    title: 'my other cool title',
+    author: 'Elien Hietanas',
+    url: 'www.mycoolblogsit.com/lkjsdflk/',
+  }
+  let postedBlog = await api.post('/api/blogs').send(blog).expect(201)
+  let response = await api.get('/api/blogs')
+  console.log(postedBlog)
+  expect(postedBlog.body.likes).toBe(0)
+})
 afterAll(() => {
   mongoose.connection.close()
 })
