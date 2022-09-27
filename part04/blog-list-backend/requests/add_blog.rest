@@ -12,11 +12,11 @@ authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR5b
 ###
 POST http://localhost:3003/api/blogs/
 content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR5bmFtbyIsImlkIjoiNjMzMzM4NmY3OTI3MjcyYTBjMDM0MTJjIiwiaWF0IjoxNjY0MzAzODAzfQ.TcXClOtmz2W-PrRc-1mhso1bOvjnlLrFBoufDvdzZG0
 
 {
-    "title": "My other cool title",
+    "title": "Testing middleware tokenExtractor",
     "author": "Elien Hietanas",
-    "url": "http://myblogs.com/QSDFFG/",
-    "likes": 17,
-    "user": "633338587927272a0c034129"
+    "url": "http://myblogs.com/DGDHGHFJ/",
+    "likes": 2000
 }
