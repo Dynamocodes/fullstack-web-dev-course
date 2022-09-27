@@ -1,10 +1,36 @@
 POST http://localhost:3003/api/blogs/
 content-type: application/json
-authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR5bmFtbyIsImlkIjoiNjMzMzM4NmY3OTI3MjcyYTBjMDM0MTJjIiwiaWF0IjoxNjY0MzAzODAzfQ.TcXClOtmz2W-PrRc-1mhso1bOvjnlLrFBoufDvdzZG0
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVoaWV0YW5lIiwiaWQiOiI2MzMzMzg1ODc5MjcyNzJhMGMwMzQxMjkiLCJpYXQiOjE2NjQzMTA5OTZ9.u6Qg4Sge08NufL5shLOh7tmVKPkVNKVx00NG1oGfjY8
+
+{
+    "title": "another blog",
+    "author": "Elias Hietanen",
+    "url": "http://myblogs.com/FGHFHJ/",
+    "likes": 3000
+}
+
+###
+
+POST http://localhost:3003/api/blogs/
+content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVoaWV0YW5lIiwiaWQiOiI2MzMzMzg1ODc5MjcyNzJhMGMwMzQxMjkiLCJpYXQiOjE2NjQzMTA5OTZ9.u6Qg4Sge08NufL5shLOh7tmVKPkVNKVx00NG1oGfjY8
+
+{
+    "title": "and another one",
+    "author": "Elias Hietanen",
+    "url": "http://myblogs.com/JKHGKFGHJ/",
+    "likes": 4000
+}
+
+###
+
+POST http://localhost:3003/api/blogs/
+content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR5bmFtbyIsImlkIjoiNjMzMzM4NmY3OTI3MjcyYTBjMDM0MTJjIiwiaWF0IjoxNjY0MzExMTM2fQ.42K0EMZrrrzHgKLiUbtySmuA24bBb4wgK8rF9vs5TA0
 
 {
     "title": "added while logged in",
-    "author": "Elias Hietanen",
+    "author": "Elien Hietanas",
     "url": "http://myblogs.com/DGDFG",
     "likes": 1000
 }
@@ -12,7 +38,7 @@ authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR5b
 ###
 POST http://localhost:3003/api/blogs/
 content-type: application/json
-authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR5bmFtbyIsImlkIjoiNjMzMzM4NmY3OTI3MjcyYTBjMDM0MTJjIiwiaWF0IjoxNjY0MzAzODAzfQ.TcXClOtmz2W-PrRc-1mhso1bOvjnlLrFBoufDvdzZG0
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR5bmFtbyIsImlkIjoiNjMzMzM4NmY3OTI3MjcyYTBjMDM0MTJjIiwiaWF0IjoxNjY0MzExMTM2fQ.42K0EMZrrrzHgKLiUbtySmuA24bBb4wgK8rF9vs5TA0
 
 {
     "title": "Testing middleware tokenExtractor",
