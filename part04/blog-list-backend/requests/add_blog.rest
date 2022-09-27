@@ -6,7 +6,7 @@ content-type: application/json
     "author": "Elias Hietanen",
     "url": "http://myblogs.com/SDFGSF/",
     "likes": 6,
-    "user": "6332e86bf238018ce9705ef5"
+    "user": "633338587927272a0c034129"
 }
 
 ###
@@ -18,5 +18,5 @@ content-type: application/json
     "author": "Elien Hietanas",
     "url": "http://myblogs.com/QSDFFG/",
     "likes": 17,
-    "user": "6332e86bf238018ce9705ef5"
+    "user": "633338587927272a0c034129"
 }
