@@ -5,7 +5,8 @@ content-type: application/json
     "title": "My awesome title",
     "author": "Elias Hietanen",
     "url": "http://myblogs.com/SDFGSF/",
-    "likes": 6
+    "likes": 6,
+    "user": "6332e86bf238018ce9705ef5"
 }
 
 ###
@@ -16,5 +17,6 @@ content-type: application/json
     "title": "My other cool title",
     "author": "Elien Hietanas",
     "url": "http://myblogs.com/QSDFFG/",
-    "likes": 17
+    "likes": 17,
+    "6332e86bf238018ce9705ef5"
 }
