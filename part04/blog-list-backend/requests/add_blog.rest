@@ -1,12 +1,12 @@
 POST http://localhost:3003/api/blogs/
 content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR5bmFtbyIsImlkIjoiNjMzMzM4NmY3OTI3MjcyYTBjMDM0MTJjIiwiaWF0IjoxNjY0MzAzODAzfQ.TcXClOtmz2W-PrRc-1mhso1bOvjnlLrFBoufDvdzZG0
 
 {
-    "title": "My awesome title",
+    "title": "added while logged in",
     "author": "Elias Hietanen",
-    "url": "http://myblogs.com/SDFGSF/",
-    "likes": 6,
-    "user": "633338587927272a0c034129"
+    "url": "http://myblogs.com/DGDFG",
+    "likes": 1000
 }
 
 ###
