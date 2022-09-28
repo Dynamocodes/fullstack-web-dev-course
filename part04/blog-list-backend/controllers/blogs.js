@@ -13,11 +13,7 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   let postedBlog = request.body
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
+  const user = await User.findById(request.user.id)
   postedBlog = {...postedBlog, user: user._id}
   const blog = new Blog(postedBlog)
   let returnedBlog = await blog.save()
@@ -28,14 +24,10 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   const blogToRemove = await Blog.findById(request.params.id)
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' })
-  }
   if(!blogToRemove){
     response.status(400).json({ error: 'malformatted id' })
-  }else if(decodedToken.id.toString() === blogToRemove.user.toString()){
-    let user = await User.findById(decodedToken.id)
+  }else if(request.user.id.toString() === blogToRemove.user.toString()){
+    let user = await User.findById(request.user.id)
     user.blogs = user.blogs.filter(id => id.toString() !== blogToRemove._id.toString())
     await user.save()
     await blogToRemove.remove()
