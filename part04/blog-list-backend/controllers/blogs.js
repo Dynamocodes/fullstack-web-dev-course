@@ -4,6 +4,7 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const blog = require('../models/blog')
+const middleware = require('../utils/middleware')
 
 blogsRouter.get('/', async (request, response) => {
 		const blogs = await Blog.find({}).populate('user', { username: 1, name: 1, id: 1 })
@@ -11,8 +12,11 @@ blogsRouter.get('/', async (request, response) => {
 
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   let postedBlog = request.body
+  if (!request.user.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
   const user = await User.findById(request.user.id)
   postedBlog = {...postedBlog, user: user._id}
   const blog = new Blog(postedBlog)
@@ -22,10 +26,12 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(returnedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
   const blogToRemove = await Blog.findById(request.params.id)
   if(!blogToRemove){
-    response.status(400).json({ error: 'malformatted id' })
+    response.status(404).end()
+  }else if (!request.user.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
   }else if(request.user.id.toString() === blogToRemove.user.toString()){
     let user = await User.findById(request.user.id)
     user.blogs = user.blogs.filter(id => id.toString() !== blogToRemove._id.toString())
@@ -46,7 +52,7 @@ blogsRouter.get('/:id', async (request, response) => {
   }
 })
 
-blogsRouter.put('/:id', async (request, response) => {
+blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
   const blog = {...request.body}
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true, runValidators: true, context: 'query' })
   if(updatedBlog){
