@@ -10,7 +10,7 @@ const App = () => {
   //const removeNotification = "removeNotification"
   //const updateNotification = "updateNotification"
   const addNotification = "addNotification"
-  //const errorNotification = "errorNotification"
+  const errorNotification = "errorNotification"
 
   const [blogs, setBlogs] = useState([])
   const [notificationMessage, setNotificationMessage] = useState(null)
@@ -21,6 +21,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [createVisible, setCreateVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -36,7 +37,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
 
   const handleUsernameChange = (event) => { setUsername(event.target.value)}
   const handlePasswordChange = (event) => { setPassword(event.target.value)}
@@ -54,6 +54,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
+      setNotificationType(errorNotification)
       setNotificationMessage('Wrong credentials')
       setTimeout(() => {
         setNotificationMessage(null)
@@ -108,7 +109,6 @@ const App = () => {
 
   const blogForm = {
     handleCreate: handleCreate,
-
     titleValue: title,
     handleTitleChange: handleTitleChange,
     authorValue: author,
@@ -117,12 +117,16 @@ const App = () => {
     handleUrlChange: handleUrlChange
   }
 
+  const hideWhenVisible = { display: createVisible ? 'none' : '' }
+  const showWhenVisible = { display: createVisible ? '' : 'none' }
 
   if (user === null) {
     return (
       <div>
         <Notification notification={notification}/>
-        <LoginForm loginForm={loginForm}/>
+        <div>
+            <LoginForm loginForm={loginForm}/>
+        </div>
       </div>
       
     )
@@ -136,7 +140,13 @@ const App = () => {
         <button onClick={handleLogout}>logout</button>
       </div>
       <div>
-        <BlogForm blogForm={blogForm}/>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setCreateVisible(true)}>create new blog</button>
+        </div>
+        <div style={showWhenVisible}>
+          <BlogForm blogForm={blogForm}/>
+          <button onClick={() => setCreateVisible(false)}>cancel</button>
+        </div>
       </div>
       <div>
         {blogs.map(blog =>
