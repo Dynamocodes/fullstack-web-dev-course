@@ -18,9 +18,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  
   const [createVisible, setCreateVisible] = useState(false)
 
   useEffect(() => {
@@ -65,13 +63,9 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
   }
-  const handleCreate = async (event) => {
+
+  const handleCreate = async (event, blog) => {
     event.preventDefault()
-    const blog = {
-      title: title,
-      author: author,
-      url: url,
-    }
     const returnedBlog = 
       await 
         blogService
@@ -85,14 +79,7 @@ const App = () => {
       setNotificationMessage(null)
     }, 5000)
     setBlogs(blogs.concat(returnedBlog))
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-
   }
-  const handleTitleChange = (event) => { setTitle(event.target.value)}
-  const handleAuthorChange = (event) => { setAuthor(event.target.value)}
-  const handleUrlChange = (event) => { setUrl(event.target.value)}
 
   const loginForm = {
     handleLogin: handleLogin,
@@ -109,12 +96,6 @@ const App = () => {
 
   const blogForm = {
     handleCreate: handleCreate,
-    titleValue: title,
-    handleTitleChange: handleTitleChange,
-    authorValue: author,
-    handleAuthorChange: handleAuthorChange,
-    urlValue: url,
-    handleUrlChange: handleUrlChange
   }
 
   const hideWhenVisible = { display: createVisible ? 'none' : '' }
