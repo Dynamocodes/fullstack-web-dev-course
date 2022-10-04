@@ -7,8 +7,14 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 
 const App = () => {
+  //const removeNotification = "removeNotification"
+  //const updateNotification = "updateNotification"
+  const addNotification = "addNotification"
+  //const errorNotification = "errorNotification"
+
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationType, setNotificationType] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -48,9 +54,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setNotificationMessage('Wrong credentials')
       setTimeout(() => {
-        setErrorMessage(null)
+        setNotificationMessage(null)
       }, 5000)
     }
   }
@@ -65,11 +71,23 @@ const App = () => {
       author: author,
       url: url,
     }
-    const returnedBlog = await blogService.create(blog)
+    const returnedBlog = 
+      await 
+        blogService
+          .create(blog)
+          .catch(err => {
+            console.log(err)
+          })
+    setNotificationMessage(`a new blog ${returnedBlog.title} by ${blog.author} added!`)
+    setNotificationType(addNotification)
+    setTimeout(() => {
+      setNotificationMessage(null)
+    }, 5000)
     setBlogs(blogs.concat(returnedBlog))
     setTitle('')
     setAuthor('')
     setUrl('')
+
   }
   const handleTitleChange = (event) => { setTitle(event.target.value)}
   const handleAuthorChange = (event) => { setAuthor(event.target.value)}
@@ -84,8 +102,8 @@ const App = () => {
   }
 
   const notification = {
-    type: 'errorNotification',
-    message: errorMessage
+    type: notificationType,
+    message: notificationMessage
   }
 
   const blogForm = {
@@ -111,6 +129,7 @@ const App = () => {
   }
   return (
     <div>
+      <Notification notification={notification}/>
       <h2>blogs</h2>
       <div>
         {user.name} logged in 
