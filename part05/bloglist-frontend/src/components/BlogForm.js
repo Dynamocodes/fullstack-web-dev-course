@@ -10,12 +10,13 @@ const BlogForm = (props) => {
       const handleAuthorChange = (event) => { setAuthor(event.target.value)}
       const handleUrlChange = (event) => { setUrl(event.target.value)}
       const createBlog = (event) => {
+        event.preventDefault()
         const blog = {
             title: title,
             author: author,
             url: url
         }
-        props.blogForm.handleCreate(event, blog)
+        props.blogForm.handleCreate(blog)
         setTitle('')
         setAuthor('')
         setUrl('')

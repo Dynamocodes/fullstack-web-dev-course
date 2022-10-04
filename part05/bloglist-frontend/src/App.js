@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   //const removeNotification = "removeNotification"
@@ -18,8 +19,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  
-  const [createVisible, setCreateVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -35,6 +34,8 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const blogFormRef = useRef()
 
   const handleUsernameChange = (event) => { setUsername(event.target.value)}
   const handlePasswordChange = (event) => { setPassword(event.target.value)}
@@ -64,8 +65,8 @@ const App = () => {
     setUser(null)
   }
 
-  const handleCreate = async (event, blog) => {
-    event.preventDefault()
+  const handleCreate = async (blog) => {
+    blogFormRef.current.toggleVisibility()
     const returnedBlog = 
       await 
         blogService
@@ -98,9 +99,6 @@ const App = () => {
     handleCreate: handleCreate,
   }
 
-  const hideWhenVisible = { display: createVisible ? 'none' : '' }
-  const showWhenVisible = { display: createVisible ? '' : 'none' }
-
   if (user === null) {
     return (
       <div>
@@ -109,7 +107,6 @@ const App = () => {
             <LoginForm loginForm={loginForm}/>
         </div>
       </div>
-      
     )
   }
   return (
@@ -121,13 +118,9 @@ const App = () => {
         <button onClick={handleLogout}>logout</button>
       </div>
       <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setCreateVisible(true)}>create new blog</button>
-        </div>
-        <div style={showWhenVisible}>
+        <Togglable buttonLabel="create new blog" ref={blogFormRef}>
           <BlogForm blogForm={blogForm}/>
-          <button onClick={() => setCreateVisible(false)}>cancel</button>
-        </div>
+        </Togglable>
       </div>
       <div>
         {blogs.map(blog =>
