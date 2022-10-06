@@ -94,7 +94,20 @@ const App = () => {
       return b2.likes - b1.likes
     })
     setBlogs(blogsToUpdate)
+  }
 
+  const handleDelete = async (id) => {
+    if(window.confirm('Are you sure you want to remove this blog?')){
+      await blogService.remove(id)
+      const indexToDelete = blogs.map(b => b.id).indexOf(id)
+      let blogsCopy = [...blogs]
+      blogsCopy.splice(indexToDelete, 1)
+      setBlogs(blogsCopy)
+    }
+  }
+
+  const isUserOwner = (username) => { 
+    return username === user.username
   }
 
   const loginForm = {
@@ -139,7 +152,12 @@ const App = () => {
       </div>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} handleUpdate={handleUpdate} />
+          <Blog 
+            key={blog.id} 
+            blog={blog} 
+            handleUpdate={handleUpdate} 
+            handleDelete={handleDelete}
+            isUserOwner={isUserOwner} />
         )}
       </div>
     </div>
