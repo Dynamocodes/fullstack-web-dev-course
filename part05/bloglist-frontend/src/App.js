@@ -74,12 +74,22 @@ const App = () => {
           .catch(err => {
             console.log(err)
           })
+    console.log(returnedBlog)
     setNotificationMessage(`a new blog ${returnedBlog.title} by ${blog.author} added!`)
     setNotificationType(addNotification)
     setTimeout(() => {
       setNotificationMessage(null)
     }, 5000)
     setBlogs(blogs.concat(returnedBlog))
+  }
+
+  const handleUpdate = async (id, blog) => {
+    const updatedBlog = await blogService.update(id, blog)
+    const indexToUpdate = blogs.map(b => b.id).indexOf(id)
+    let blogsToUpdate = blogs.filter(b => b.id !== updatedBlog.id)
+    blogsToUpdate.splice(indexToUpdate, 0, updatedBlog)
+    setBlogs(blogsToUpdate)
+
   }
 
   const loginForm = {
@@ -124,7 +134,7 @@ const App = () => {
       </div>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} handleUpdate={handleUpdate} />
         )}
       </div>
     </div>
