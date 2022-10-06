@@ -21,9 +21,12 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs => {
+      blogs.sort((b1, b2)=>{
+        return b2.likes - b1.likes
+      })
       setBlogs( blogs )
-    )  
+    })  
   }, [])
 
   useEffect(() => {
@@ -74,7 +77,6 @@ const App = () => {
           .catch(err => {
             console.log(err)
           })
-    console.log(returnedBlog)
     setNotificationMessage(`a new blog ${returnedBlog.title} by ${blog.author} added!`)
     setNotificationType(addNotification)
     setTimeout(() => {
@@ -88,6 +90,9 @@ const App = () => {
     const indexToUpdate = blogs.map(b => b.id).indexOf(id)
     let blogsToUpdate = blogs.filter(b => b.id !== updatedBlog.id)
     blogsToUpdate.splice(indexToUpdate, 0, updatedBlog)
+    blogsToUpdate.sort((b1, b2)=>{
+      return b2.likes - b1.likes
+    })
     setBlogs(blogsToUpdate)
 
   }
