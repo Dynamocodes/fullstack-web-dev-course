@@ -1,7 +1,7 @@
-import { useState} from 'react'
+import { useState } from 'react'
 
-const Blog = ({blog, handleUpdate, handleDelete, isUserOwner}) => {
-  
+const Blog = ({ blog, handleUpdate, handleDelete, isUserOwner }) => {
+
   const blogStyle = {
     paddingTop: 10,
     paddingBottom: 10,
@@ -13,7 +13,7 @@ const Blog = ({blog, handleUpdate, handleDelete, isUserOwner}) => {
 
   const [detailedView, setDetailedView] = useState(false)
 
-  const buttonLabel = detailedView ? "hide" : "view"
+  const buttonLabel = detailedView ? 'hide' : 'view'
 
   const toggleDetailedView = () => {
     setDetailedView(!detailedView)
@@ -52,7 +52,7 @@ const Blog = ({blog, handleUpdate, handleDelete, isUserOwner}) => {
       {blog.title} {blog.author}
       <button onClick={toggleDetailedView}>view</button>
     </div>
-  )  
+  )
 }
 
 export default Blog

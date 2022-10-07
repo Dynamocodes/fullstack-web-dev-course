@@ -8,10 +8,10 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 
 const App = () => {
-  //const removeNotification = "removeNotification"
-  //const updateNotification = "updateNotification"
-  const addNotification = "addNotification"
-  const errorNotification = "errorNotification"
+  //const removeNotification = 'removeNotification'
+  //const updateNotification = 'updateNotification'
+  const addNotification = 'addNotification'
+  const errorNotification = 'errorNotification'
 
   const [blogs, setBlogs] = useState([])
   const [notificationMessage, setNotificationMessage] = useState(null)
@@ -22,11 +22,11 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
-      blogs.sort((b1, b2)=>{
+      blogs.sort((b1, b2) => {
         return b2.likes - b1.likes
       })
       setBlogs( blogs )
-    })  
+    })
   }, [])
 
   useEffect(() => {
@@ -63,20 +63,20 @@ const App = () => {
       }, 5000)
     }
   }
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
   }
 
   const handleCreate = async (blog) => {
     blogFormRef.current.toggleVisibility()
-    const returnedBlog = 
-      await 
-        blogService
-          .create(blog)
-          .catch(err => {
-            console.log(err)
-          })
+    const returnedBlog =
+      await
+      blogService
+        .create(blog)
+        .catch(err => {
+          console.log(err)
+        })
     setNotificationMessage(`a new blog ${returnedBlog.title} by ${blog.author} added!`)
     setNotificationType(addNotification)
     setTimeout(() => {
@@ -90,7 +90,7 @@ const App = () => {
     const indexToUpdate = blogs.map(b => b.id).indexOf(id)
     let blogsToUpdate = blogs.filter(b => b.id !== updatedBlog.id)
     blogsToUpdate.splice(indexToUpdate, 0, updatedBlog)
-    blogsToUpdate.sort((b1, b2)=>{
+    blogsToUpdate.sort((b1, b2) => {
       return b2.likes - b1.likes
     })
     setBlogs(blogsToUpdate)
@@ -106,16 +106,8 @@ const App = () => {
     }
   }
 
-  const isUserOwner = (username) => { 
+  const isUserOwner = (username) => {
     return username === user.username
-  }
-
-  const loginForm = {
-    handleLogin: handleLogin,
-    handleUsernameChange: handleUsernameChange,
-    usernameValue: username,
-    handlePasswordChange: handlePasswordChange,
-    passwordValue: password
   }
 
   const notification = {
@@ -123,16 +115,17 @@ const App = () => {
     message: notificationMessage
   }
 
-  const blogForm = {
-    handleCreate: handleCreate,
-  }
-
   if (user === null) {
     return (
       <div>
         <Notification notification={notification}/>
         <div>
-            <LoginForm loginForm={loginForm}/>
+          <LoginForm
+            handleLogin={handleLogin}
+            handleUsernameChange={handleUsernameChange}
+            usernameValue={username}
+            handlePasswordChange={handlePasswordChange}
+            passwordValue={password}/>
         </div>
       </div>
     )
@@ -142,20 +135,20 @@ const App = () => {
       <Notification notification={notification}/>
       <h2>blogs</h2>
       <div>
-        {user.name} logged in 
+        {user.name} logged in
         <button onClick={handleLogout}>logout</button>
       </div>
       <div>
         <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-          <BlogForm blogForm={blogForm}/>
+          <BlogForm handleCreate={handleCreate}/>
         </Togglable>
       </div>
       <div>
         {blogs.map(blog =>
-          <Blog 
-            key={blog.id} 
-            blog={blog} 
-            handleUpdate={handleUpdate} 
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleUpdate={handleUpdate}
             handleDelete={handleDelete}
             isUserOwner={isUserOwner} />
         )}
