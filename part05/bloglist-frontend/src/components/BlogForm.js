@@ -24,7 +24,7 @@ const BlogForm = ({ handleCreate }) => {
   }
 
   return (
-    <div>
+    <div className='blogForm'>
       <h1>
           Create new
       </h1>
@@ -35,7 +35,8 @@ const BlogForm = ({ handleCreate }) => {
             type='text'
             onChange={handleTitleChange}
             value={title}
-            name='Title'/>
+            name='Title'
+            placeholder='enter blog title'/>
         </div>
         <div>
           author
@@ -43,7 +44,8 @@ const BlogForm = ({ handleCreate }) => {
             type='text'
             onChange={handleAuthorChange}
             value={author}
-            name='Author'/>
+            name='Author'
+            placeholder='enter blog author name'/>
         </div>
         <div>
           url
@@ -51,7 +53,8 @@ const BlogForm = ({ handleCreate }) => {
             type='text'
             onChange={handleUrlChange}
             value={url}
-            name='Url'/>
+            name='Url'
+            placeholder='enter blog url'/>
         </div>
         <button type="submit">create</button>
       </form>

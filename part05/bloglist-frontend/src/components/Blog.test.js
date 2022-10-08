@@ -53,7 +53,7 @@ describe('<Blog/>', () => {
     expect(div).toHaveTextContent('likes 15')
   })
 
-  test('url and likes are shown after clicking view button', async () => {
+  test('like handler is called twice when the button is pressed twice', async () => {
     const user = userEvent.setup()
     const viewButton = screen.getByText('view')
     await user.click(viewButton)
