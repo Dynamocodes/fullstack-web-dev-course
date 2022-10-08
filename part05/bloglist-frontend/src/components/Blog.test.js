@@ -7,6 +7,9 @@ import Blog from './Blog'
 describe('<Blog/>', () => {
 
   let container
+  let handleUpdateMock
+  let handleDeleteMock
+  let isUserOwnerMock
 
   beforeEach(() => {
     const blog = {
@@ -17,9 +20,9 @@ describe('<Blog/>', () => {
       user: '633338587927272a0c034129'
     }
 
-    const handleUpdateMock = jest.fn()
-    const handleDeleteMock = jest.fn()
-    const isUserOwnerMock = jest.fn()
+    handleUpdateMock = jest.fn()
+    handleDeleteMock = jest.fn()
+    isUserOwnerMock = jest.fn()
 
     container = render(
       <Blog
@@ -48,6 +51,16 @@ describe('<Blog/>', () => {
     expect(div).toHaveTextContent('title of the new blog Elias Hietanen')
     expect(div).toHaveTextContent('www.url.com')
     expect(div).toHaveTextContent('likes 15')
+  })
+
+  test('url and likes are shown after clicking view button', async () => {
+    const user = userEvent.setup()
+    const viewButton = screen.getByText('view')
+    await user.click(viewButton)
+    const likeButton = screen.getByText('like')
+    await user.click(likeButton)
+    await user.click(likeButton)
+    expect(handleUpdateMock.mock.calls).toHaveLength(2)
   })
 })
 
