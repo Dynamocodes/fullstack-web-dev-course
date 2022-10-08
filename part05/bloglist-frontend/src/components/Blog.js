@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleUpdate, handleDelete, isUserOwner }) => {
 
-  const detailedBlog = 'detailledBlog'
+  const detailedBlog = 'detailedBlog'
   const shortenedBlog = 'shortenedBlog'
 
   const blogStyle = {

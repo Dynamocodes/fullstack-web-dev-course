@@ -1,6 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 describe('<Blog/>', () => {
@@ -16,16 +17,16 @@ describe('<Blog/>', () => {
       user: '633338587927272a0c034129'
     }
 
-    const handleUpdate = () => {}
-    const handleDelete = () => {}
-    const isUserOwner = () => {}
+    const handleUpdateMock = jest.fn()
+    const handleDeleteMock = jest.fn()
+    const isUserOwnerMock = jest.fn()
 
     container = render(
       <Blog
         blog={blog}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-        isUserOwner={isUserOwner} />
+        handleUpdate={handleUpdateMock}
+        handleDelete={handleDeleteMock}
+        isUserOwner={isUserOwnerMock} />
     ).container
   })
 
@@ -37,6 +38,16 @@ describe('<Blog/>', () => {
     expect(div).toHaveTextContent('title of the new blog Elias Hietanen')
     expect(div).not.toHaveTextContent('www.url.com')
     expect(div).not.toHaveTextContent('likes 15')
+  })
+
+  test('url and likes are shown after clicking view button', async () => {
+    const user = userEvent.setup()
+    const button = screen.getByText('view')
+    await user.click(button)
+    const div = container.querySelector('.detailedBlog')
+    expect(div).toHaveTextContent('title of the new blog Elias Hietanen')
+    expect(div).toHaveTextContent('www.url.com')
+    expect(div).toHaveTextContent('likes 15')
   })
 })
 
