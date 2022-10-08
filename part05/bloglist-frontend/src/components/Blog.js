@@ -1,6 +1,10 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleUpdate, handleDelete, isUserOwner }) => {
+
+  const detailedBlog = 'detailledBlog'
+  const shortenedBlog = 'shortenedBlog'
 
   const blogStyle = {
     paddingTop: 10,
@@ -38,21 +42,29 @@ const Blog = ({ blog, handleUpdate, handleDelete, isUserOwner }) => {
 
   if(detailedView) {
     return(
-      <div style={blogStyle}>
+      <div className={detailedBlog} style={blogStyle}>
         <div>{blog.title} {blog.author}<button onClick={toggleDetailedView}>{buttonLabel}</button></div>
         <div>{blog.url}</div>
-        <div>{blog.likes}<button onClick={likeBlog}>like</button></div>
+        <div>likes {blog.likes}<button onClick={likeBlog}>like</button></div>
         <div>{blog.user.name}</div>
         <div>{deleteButton}</div>
       </div>
     )
   }
   return(
-    <div style={blogStyle}>
+    <div className={shortenedBlog} style={blogStyle}>
       {blog.title} {blog.author}
-      <button onClick={toggleDetailedView}>view</button>
+      <button onClick={toggleDetailedView}>{buttonLabel}</button>
     </div>
   )
 }
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  handleUpdate: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  isUserOwner: PropTypes.func.isRequired,
+}
+Blog.displayName = 'Blog'
 
 export default Blog

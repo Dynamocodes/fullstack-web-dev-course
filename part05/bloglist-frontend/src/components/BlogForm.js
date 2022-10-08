@@ -62,5 +62,6 @@ const BlogForm = ({ handleCreate }) => {
 BlogForm.propTypes = {
   handleCreate: PropTypes.func.isRequired,
 }
+BlogForm.displayName = 'BlogForm'
 
 export default BlogForm
