@@ -40,5 +40,27 @@ describe('Blog app', function() {
       .and('have.css', 'color')
       .should('include', 'rgb(255, 0, 0)')
     cy.get('#loginButton')
+    cy.get('html').should('not.contain', 'Elias Hietanen logged in')
+
+  })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.get('#username').type('ehietane')
+      cy.get('#password').type('password')
+      cy.get('#loginButton').click()
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('blogs')
+      cy.get('#toggleOpen').click()
+      cy.get('#titleInput').type('new title')
+      cy.get('#authorInput').type('Elias Hietanen')
+      cy.get('#urlInput').type('www.void.com')
+      cy.get('#createBlogButton').click()
+      cy.get('.addNotification').should('contain', 'a new blog new title by Elias Hietanen added!')
+      cy.get('.addNotification').should('have.css', 'color', 'rgb(7, 154, 41)')
+      cy.get('.shortenedBlog').should('contain', 'new title Elias Hietanen')
+    })
   })
 })
