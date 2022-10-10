@@ -46,9 +46,9 @@ const Blog = ({ key, blog, handleUpdate, handleDelete, isUserOwner }) => {
   if(detailedView) {
     return(
       <div id={key} className={detailedBlog} style={blogStyle}>
-        <div>{blog.title} {blog.author}<button onClick={toggleDetailedView}>{buttonLabel}</button></div>
+        <div>{blog.title} {blog.author}<button className='view' onClick={toggleDetailedView}>{buttonLabel}</button></div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes}<button onClick={likeBlog}>like</button></div>
+        <div>likes {blog.likes}<button className='like' onClick={likeBlog}>like</button></div>
         <div>{blog.user.name}</div>
         <div>{deleteButton}</div>
       </div>
