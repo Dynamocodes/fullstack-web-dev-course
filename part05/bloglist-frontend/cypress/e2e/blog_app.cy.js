@@ -2,12 +2,18 @@ describe('Blog app', function() {
 
   beforeEach(( ) => {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    const user = {
+    const user1 = {
       name: 'Elias Hietanen',
       username: 'ehietane',
       password: 'password'
     }
-    cy.request('POST', 'http://localhost:3003/api/users/', user)
+    const user2 = {
+      name: 'Elien Hietanas',
+      username: 'dynamo',
+      password: 'password'
+    }
+    cy.request('POST', 'http://localhost:3003/api/users/', user1)
+    cy.request('POST', 'http://localhost:3003/api/users/', user2)
     cy.visit('http://localhost:3000')
   })
 
@@ -30,8 +36,8 @@ describe('Blog app', function() {
 
   it('user can\'t login', function() {
     cy.contains('Log in to application')
-    cy.get('#username').type('dynamo')
-    cy.get('#password').type('password')
+    cy.get('#username').type('ehietane')
+    cy.get('#password').type('wrong')
     cy.get('#loginButton').click()
     cy.contains('Log in to application')
     cy.contains('Wrong credentials')
@@ -46,9 +52,7 @@ describe('Blog app', function() {
 
   describe('When logged in', function() {
     beforeEach(function() {
-      cy.get('#username').type('ehietane')
-      cy.get('#password').type('password')
-      cy.get('#loginButton').click()
+      cy.login({ username: 'ehietane', password: 'password' })
     })
 
     it('A blog can be created', function() {
@@ -61,6 +65,12 @@ describe('Blog app', function() {
       cy.get('.addNotification').should('contain', 'a new blog new title by Elias Hietanen added!')
       cy.get('.addNotification').should('have.css', 'color', 'rgb(7, 154, 41)')
       cy.get('.shortenedBlog').should('contain', 'new title Elias Hietanen')
+    })
+
+    it('user can logout', function(){
+      cy.contains('blogs')
+      cy.get('#logoutButton').click()
+      cy.loginFormIsShown()
     })
 
     describe('When there is a blog in the database', function() {
@@ -78,6 +88,19 @@ describe('Blog app', function() {
         cy.contains('likes 0')
         cy.contains('like').click()
         cy.contains('likes 1')
+      })
+
+      it('A blog can be deleted by the user who created it', function(){
+        cy.contains('view').click()
+        cy.contains('remove').click()
+        cy.get('html').should('not.contain', 'new title Elias Hietanen')
+      })
+
+      it('A blog can\'t be deleted by another user', function(){
+        cy.get('#logoutButton').click()
+        cy.login({ username: 'dynamo', password: 'password' })
+        cy.contains('view').click()
+        cy.get('.removeButton').should('not.exist')
       })
     })
   })

@@ -38,7 +38,10 @@ const Blog = ({ key, blog, handleUpdate, handleDelete, isUserOwner }) => {
     handleDelete(blog.id)
   }
 
-  const deleteButton = isUserOwner(blog.user.username) ? <button onClick={deleteBlog}>remove</button> : null
+  const deleteButton =
+    isUserOwner(blog.user.username)
+      ? <button className='removeButton' onClick={deleteBlog}>remove</button>
+      : null
 
   if(detailedView) {
     return(

@@ -8,7 +8,7 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 
 const App = () => {
-  //const removeNotification = 'removeNotification'
+  const removeNotification = 'removeNotification'
   //const updateNotification = 'updateNotification'
   const addNotification = 'addNotification'
   const errorNotification = 'errorNotification'
@@ -101,8 +101,16 @@ const App = () => {
       await blogService.remove(id)
       const indexToDelete = blogs.map(b => b.id).indexOf(id)
       let blogsCopy = [...blogs]
+
+      const blogTitle = blogs[indexToDelete].title
+      const blogAuthor = blogs[indexToDelete].author
       blogsCopy.splice(indexToDelete, 1)
       setBlogs(blogsCopy)
+      setNotificationMessage(`a new blog ${blogTitle} by ${blogAuthor} removed!`)
+      setNotificationType(removeNotification)
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)
     }
   }
 
