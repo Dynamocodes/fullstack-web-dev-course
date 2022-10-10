@@ -6,14 +6,13 @@ import BlogForm from './BlogForm'
 
 describe('<BlogForm/>', () => {
 
-  let container
   let handleCreateMock
 
   beforeEach(() => {
 
     handleCreateMock = jest.fn()
 
-    container = render(
+    render(
       <BlogForm
         handleCreate={handleCreateMock} />
     ).container
