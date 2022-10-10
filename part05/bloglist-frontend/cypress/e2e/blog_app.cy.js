@@ -62,5 +62,23 @@ describe('Blog app', function() {
       cy.get('.addNotification').should('have.css', 'color', 'rgb(7, 154, 41)')
       cy.get('.shortenedBlog').should('contain', 'new title Elias Hietanen')
     })
+
+    describe('When there is a blog in the database', function() {
+      beforeEach(function() {
+        cy.get('#toggleOpen').click()
+        cy.get('#titleInput').type('new title')
+        cy.get('#authorInput').type('Elias Hietanen')
+        cy.get('#urlInput').type('www.void.com')
+        cy.get('#createBlogButton').click()
+      })
+
+      it('A blog can be liked', function(){
+        cy.contains('blogs')
+        cy.contains('view').click()
+        cy.contains('likes 0')
+        cy.contains('like').click()
+        cy.contains('likes 1')
+      })
+    })
   })
 })
