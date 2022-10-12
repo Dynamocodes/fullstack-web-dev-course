@@ -28,6 +28,9 @@ const reducer = (state = initialState, action) => {
       const indexOfVotedAnecdote = state.map(anecdote => anecdote.id).indexOf(action.data.id)
       const {content, id, votes} = stateCopy.splice(indexOfVotedAnecdote, 1)[0]
       stateCopy.splice(indexOfVotedAnecdote, 0, { content: content, id: id, votes: votes+1 })
+      stateCopy.sort((a,b) => {
+        return b.votes - a.votes
+      })
       return stateCopy
     case 'CREATE':
       return state.concat(asObject(action.data.content))
