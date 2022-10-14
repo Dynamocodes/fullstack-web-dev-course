@@ -1,11 +1,4 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
+const anecdotesAtStart = []
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
@@ -24,10 +17,24 @@ export const voteAnecdote = (id) => {
   }
 }
 
-export const addAnecdote = (content) => {
+export const newAnecdote = (content) => {
   return {
     type: 'CREATE',
     data: {content}
+  }
+}
+
+export const addAnecdote = (anecdote) => {
+  return {
+    type: 'ADD',
+    data: {anecdote}
+  }
+}
+
+export const setAnecdotes = (anecdotes) => {
+  return {
+    type: 'SET',
+    data: {anecdotes}
   }
 }
 
@@ -36,6 +43,7 @@ const initialState = anecdotesAtStart.map(asObject)
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
+  console.log('action data:', action.data)
   switch(action.type){
     case 'VOTE':
       const stateCopy = [...state]
@@ -45,6 +53,10 @@ const reducer = (state = initialState, action) => {
       return stateCopy
     case 'CREATE':
       return state.concat(asObject(action.data.content))
+    case 'ADD':
+      return state.concat(action.data.anecdote)
+    case 'SET':
+      return action.data.anecdotes
     default:
       return state
   }
