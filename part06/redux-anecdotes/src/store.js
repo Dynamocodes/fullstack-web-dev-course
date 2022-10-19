@@ -16,7 +16,6 @@ const store = configureStore({
 })
 
 anecdoteService.getAll().then(anecdotes => {
-  console.log('anecdotes: ', anecdotes)
   store.dispatch(setAnecdotes(anecdotes))
 })
 
