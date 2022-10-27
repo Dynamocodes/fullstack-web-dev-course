@@ -60,10 +60,22 @@ const Notification = (props) => {
 const CreateNew = (props) => {
 
   const navigate = useNavigate()
-  const contentField = useField('text')
-  const authorField = useField('text')
-  const infoField = useField('text')
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
 
+  const reset = 'reset'
+  const { [reset]: contentReset, ...contentField } = content
+  const { [reset]: authorReset, ...authorField } = author
+  const { [reset]: infoReset, ...infoField } = info
+
+
+  
+  const resetFields = () => {
+    contentReset()
+    authorReset()
+    infoReset()
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -92,7 +104,8 @@ const CreateNew = (props) => {
           url for more info
           <input {...infoField} />
         </div>
-        <button>create</button>
+        <button type='submit'>create</button>
+        <button type='button' onClick={resetFields}>reset</button>
       </form>
     </div>
   )
