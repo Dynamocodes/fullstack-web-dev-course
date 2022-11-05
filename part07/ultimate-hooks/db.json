@@ -7,10 +7,6 @@
     {
       "content": "the best featrure ever <3",
       "id": 2
-    },
-    {
-      "content": "a new note ",
-      "id": 3
     }
   ],
   "persons": [
@@ -25,14 +21,9 @@
       "id": 2
     },
     {
-      "name": "Elias",
-      "number": "2345534534",
+      "name": "elli",
+      "number": "234563456346",
       "id": 3
-    },
-    {
-      "name": "Elaidzfj",
-      "number": "2463546345(",
-      "id": 4
     }
   ]
 }
