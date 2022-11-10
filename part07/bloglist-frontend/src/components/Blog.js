@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const Blog = ({ key, blog, handleUpdate, handleDelete, isUserOwner }) => {
+const Blog = ({ blog, handleUpdate, handleDelete, isUserOwner }) => {
   const detailedBlog = "detailedBlog";
   const shortenedBlog = "shortenedBlog";
 
@@ -45,7 +45,7 @@ const Blog = ({ key, blog, handleUpdate, handleDelete, isUserOwner }) => {
 
   if (detailedView) {
     return (
-      <div id={key} className={detailedBlog} style={blogStyle}>
+      <div id={blog.id} className={detailedBlog} style={blogStyle}>
         <div>
           {blog.title} {blog.author}
           <button className="view" onClick={toggleDetailedView}>
@@ -65,7 +65,7 @@ const Blog = ({ key, blog, handleUpdate, handleDelete, isUserOwner }) => {
     );
   }
   return (
-    <div id={key} className={shortenedBlog} style={blogStyle}>
+    <div id={blog.id} className={shortenedBlog} style={blogStyle}>
       {blog.title} {blog.author}
       <button onClick={toggleDetailedView}>{buttonLabel}</button>
     </div>
