@@ -123,17 +123,14 @@ const resolvers = {
     bookCount: () => books.length,
     allBooks: (root, args) => {
       let filteredBooks = [...books]
-      console.log(filteredBooks)
       filteredBooks = 
       args.author === undefined 
         ? filteredBooks 
         : filteredBooks.filter(book => book.author === args.author)
-      console.log(filteredBooks)
       filteredBooks = 
       args.genre === undefined
         ? filteredBooks
         : filteredBooks.filter(book => book.genres.includes(args.genre))
-      console.log(filteredBooks)
       return filteredBooks
     }
   },
