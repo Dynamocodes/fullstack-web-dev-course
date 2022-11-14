@@ -114,8 +114,17 @@ const typeDefs = gql`
     authorCount: Int!
     allAuthors: [Author!]!
   }
-`
 
+  type Mutation {
+    addBook(
+      title: String!
+      published: Int!
+      author: String!
+      genres: [String!]!
+    ): Book
+  }
+`
+const { v1: uuid } = require('uuid')
 const resolvers = {
   Query: {
     authorCount: () => authors.length,
@@ -152,6 +161,17 @@ const resolvers = {
     author: (root) => root.author,
     id: (root) => root.id,
     genres: (root) => root.genres,
+  },
+
+  Mutation: {
+    addBook: (root, args) => {
+      const book = {...args, id: uuid()}
+      books = books.concat(book)
+      if(!authors.map(author => author.name).includes(args.author)){
+        authors = authors.concat({name: args.author, id: uuid()})
+      }
+      return book
+    }
   }
 }
 
