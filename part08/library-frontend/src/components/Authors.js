@@ -1,16 +1,16 @@
 import { useQuery } from '@apollo/client'
 import BirthdateForm from './BirthdateForm'
-import { ALL_AUTHORS } from '../queries'
+import { ALL_AUTHORS_WITH_BOOK_COUNT } from '../queries'
 
 const Authors = (props) => {
 
-  const result = useQuery(ALL_AUTHORS)
+  const result = useQuery(ALL_AUTHORS_WITH_BOOK_COUNT)
 
   if (!props.show) {
     return null
   }
   
-  const authors = result.loading ? [] : result.data.allAuthors
+  const authors = result.loading ? [] : result.data.allAuthorsWithBookCount
 
   return (
     <div>
