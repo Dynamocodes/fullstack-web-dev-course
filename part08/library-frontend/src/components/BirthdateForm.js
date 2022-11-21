@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { EDIT_BIRTHYEAR, ALL_AUTHORS } from "../queries"
+import { EDIT_BIRTHYEAR, ALL_AUTHORS_WITH_BOOK_COUNT } from "../queries"
 import { useMutation } from "@apollo/client"
 
 const BirthdateForm = ({authors}) => {
 
   const [editAuthor] = useMutation(EDIT_BIRTHYEAR, {
-    refetchQueries: [ {query: ALL_AUTHORS} ]
+    refetchQueries: [ {query: ALL_AUTHORS_WITH_BOOK_COUNT} ]
   })
 
   const [name, setName] = useState("")

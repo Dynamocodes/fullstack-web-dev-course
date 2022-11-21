@@ -151,7 +151,7 @@ const typeDefs = gql`
     editAuthor(
       name: String!
       setBornTo: Int!
-    ): Author
+    ): AuthorWithBookCount
   }
 `
 const resolvers = {
@@ -173,7 +173,6 @@ const resolvers = {
       args.genre === undefined
         ? filteredBooks
         : filteredBooks.filter(book => book.genres.includes(args.genre))
-      console.log('filteredbooks:', filteredBooks)
       return filteredBooks
     },
     allAuthorsWithBookCount: async () => {
@@ -204,14 +203,13 @@ const resolvers = {
   Book: {
     title: (root) => root.title,
     published: (root) => root.published,
-    author: async (root) => await Author.findOne({name: root.author}),
+    author: async (root) => root.author,
     id: (root) => root.id,
     genres: (root) => root.genres,
   },
 
   Mutation: {
     addBook: async (root, args) => {
-      console.log(args.author)
       let author = await Author.findOne({name : args.author})
       if(!author){
         author = new Author({name: args.author})
@@ -229,11 +227,12 @@ const resolvers = {
     },
 
     editAuthor: async (root, args) => {
-        let author = Author.findOne({name: args.name})
+        let author = await Author.findOne({name: args.name})
         if(author){
           author.born = args.setBornTo
-          return author.save()
+          await author.save()
         }
+        return author
     }
   }
 }
