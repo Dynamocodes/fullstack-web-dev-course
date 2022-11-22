@@ -210,27 +210,48 @@ const resolvers = {
 
   Mutation: {
     addBook: async (root, args) => {
+      if(args.author.length < 4){
+        throw new UserInputError(
+          "The name of the author must be at least 4 characters long"
+        )
+      }
+      if(args.title.length < 2){
+        throw new UserInputError("The title of the book must be at least 2 characters long")
+      }
       let author = await Author.findOne({name : args.author})
       if(!author){
         author = new Author({name: args.author})
-        await author.save()
       }
       let book = new Book(
-        {
-          title: args.title, 
-          published: args.published,
-          author: author,
-          genres: args.genres
+      {
+        title: args.title, 
+        published: args.published,
+        author: author,
+        genres: args.genres
+      })
+      try{
+        await author.save()
+        await book.save()
+      }catch(error){
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
         })
-        return book.save()
-      
+      }
+      return book
     },
 
     editAuthor: async (root, args) => {
         let author = await Author.findOne({name: args.name})
         if(author){
           author.born = args.setBornTo
-          await author.save()
+          try{
+            await author.save()
+          }catch(error){
+            throw new UserInputError(error.message, {
+              invalidArgs: args,
+            })
+          }
+          
         }
         return author
     }
