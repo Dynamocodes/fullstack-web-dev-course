@@ -152,6 +152,11 @@ const resolvers = {
     genres: (root) => root.genres,
   },
 
+  User: {
+    username: (root) => root.username,
+    favouriteGenre: (root) => root.favouriteGenre,
+  },
+
   Mutation: {
     addBook: async (root, args, context) => {
       const currentUser = context.currentUser
@@ -234,7 +239,6 @@ const resolvers = {
         username: user.username,
         id: user._id,
       }
-  
       return { value: jwt.sign(userForToken, JWT_SECRET) }
     },
   }
