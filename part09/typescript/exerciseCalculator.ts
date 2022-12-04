@@ -25,7 +25,9 @@ const parseArgumentsExercise = (args: Array<string>) : ExerciseValues => {
           days: daysNumber,
           target: Number(args[2])
         }
-      }
+    }else{
+        throw new Error('Provided Values were invalid')
+    }
 }
 
 const MAX_RATNIG = 5
