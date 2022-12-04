@@ -15,7 +15,7 @@ interface ExerciseValues {
 
 const parseArgumentsExercise = (args: Array<string>) : ExerciseValues => {
     if (args.length < 4) throw new Error('Not enough arguments');
-    let daysString = args.filter((e, i ) => {return i >= 3})
+    let daysString = args.filter((_e, i ) => {return i >= 3})
     let daysNumber = daysString.map(e => {
         if(isNaN(Number(e))) throw new Error('Provided values were invalid!')
         return Number(e)
