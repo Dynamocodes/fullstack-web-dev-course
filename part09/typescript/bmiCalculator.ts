@@ -3,7 +3,7 @@ interface Dimensions {
     weight: number
 }
 
-const parseArguments = (args: Array<string>) : Dimensions => {
+export const parseArguments = (args: Array<string>) : Dimensions => {
     if (args.length < 4) throw new Error('Not enough arguments');
     if (args.length > 4) throw new Error('Too many arguments');
     if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
@@ -16,7 +16,7 @@ const parseArguments = (args: Array<string>) : Dimensions => {
       }
 }
 
-const calculateBmi = (height: number, mass: number): string => {
+export const calculateBmi = (height: number, mass: number): string => {
     const bmi = mass/((height/100)**2)
     switch(true){
         case bmi < 16:
@@ -39,6 +39,7 @@ const calculateBmi = (height: number, mass: number): string => {
             return 'something wrong happened'
     }
 }
+
 try {
     const { height, weight } = parseArguments(process.argv);
     console.log(calculateBmi(height, weight))
