@@ -33,7 +33,7 @@ const parseArgumentsExercise = (args: Array<string>) : ExerciseValues => {
 const MAX_RATNIG = 5;
 
 
-const calculateExercises = (days: Array<number>, target: number): Result => {
+export const calculateExercises = (days: Array<number>, target: number): Result => {
     const average = days.reduce((amount, hours) => { return amount + hours; }, 0)/days.length;
     let rating;
     if(average > target){

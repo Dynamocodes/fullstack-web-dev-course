@@ -1,9 +1,32 @@
 import express from 'express';
 import { calculateBmi, parseArguments } from './bmiCalculator';
+import { calculateExercises } from './exerciseCalculator';
 const app = express();
+
+app.use(express.json());
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
+});
+
+const isNumberArray = (arr: Array<number>) : boolean => {
+  const isArray: boolean = Array.isArray(arr);
+  const areNumbers: boolean = arr.reduce( (acc : boolean, e: number) => {
+    return acc && !isNaN(Number(e));
+  }, true);
+  return isArray && areNumbers;
+};
+
+app.post('/exercises', (req, res) => {
+  if(!req.body || !req.body.daily_exercises || !req.body.target){//eslint-disable-line
+    res.send( {error: "parameters missing"});
+  }
+  const daily_exercises : Array<number> = req.body.daily_exercises // eslint-disable-line
+  const target : number = req.body.target // eslint-disable-line
+  if(isNaN(target) || !isNumberArray(daily_exercises)){
+    res.send({error: "malformatted parameters"});
+  }
+  res.send(calculateExercises(daily_exercises, target));
 });
 
 app.get('/bmi', (req, res) => {
