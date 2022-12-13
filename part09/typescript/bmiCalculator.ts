@@ -10,41 +10,40 @@ export const parseArguments = (args: Array<string>) : Dimensions => {
         return {
           height: Number(args[2]),
           weight: Number(args[3])
-        }
+        };
       } else {
         throw new Error('Provided values were not numbers!');
       }
-}
-
+};
 export const calculateBmi = (height: number, mass: number): string => {
-    const bmi = mass/((height/100)**2)
+    const bmi = mass/((height/100)**2);
     switch(true){
         case bmi < 16:
-            return 'Underwaigth (Severe thinness)'
+            return 'Underwaigth (Severe thinness)';
         case bmi <= 16.9:
-            return 'Underweight (Moderate thinness)'
+            return 'Underweight (Moderate thinness)';
         case bmi <= 18.4:
-            return 'Underweight (Mild thinness)'
+            return 'Underweight (Mild thinness)';
         case bmi <= 24.9:
-            return 'Normal range'
+            return 'Normal range';
+        case bmi <= 29.9:
+            return 'Overweight (Pre-obese)';
         case bmi <= 34.9:
-            return 'Overweight (Pre-obese)'
-        case bmi <= 34.9:
-            return 'Obese (Class I)'
+            return 'Obese (Class I)';
         case bmi <= 39.9:
-            return 'Obese (Class II)'
-        case bmi >= 40:
-            return 'Obese (Class III)'
+            return 'Obese (Class II)';
+        case bmi > 39.9:
+            return 'Obese (Class III)';
         default:
-            return 'something wrong happened'
+            return 'something wrong happened';
     }
-}
+};
 
 try {
     const { height, weight } = parseArguments(process.argv);
-    console.log(calculateBmi(height, weight))
+    console.log(calculateBmi(height, weight));
   } catch (error: unknown) {
-    let errorMessage = 'Something bad happened.'
+    let errorMessage = 'Something bad happened.';
     if (error instanceof Error) {
       errorMessage += ' Error: ' + error.message;
     }
