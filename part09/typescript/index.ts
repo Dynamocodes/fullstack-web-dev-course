@@ -19,33 +19,28 @@ const isNumberArray = (arr: Array<number>) : boolean => {
 
 app.post('/exercises', (req, res) => {
   if(!req.body || !req.body.daily_exercises || !req.body.target){//eslint-disable-line
-    res.send( {error: "parameters missing"});
+    res.status(401).json( {error: "parameters missing"}).end();
   }
-  const daily_exercises : Array<number> = req.body.daily_exercises // eslint-disable-line
-  const target : number = req.body.target // eslint-disable-line
-  if(isNaN(target) || !isNumberArray(daily_exercises)){
-    res.send({error: "malformatted parameters"});
+  else if(isNaN(req.body.target) || !isNumberArray(req.body.daily_exercises)){//eslint-disable-line
+    res.status(401).json({error: "malformatted parameters"}).end();
   }
-  res.send(calculateExercises(daily_exercises, target));
+  else{
+    const daily_exercises : Array<number> = req.body.daily_exercises // eslint-disable-line
+    const target : number = req.body.target // eslint-disable-line
+    res.send(calculateExercises(daily_exercises, target));
+  }
+  
 });
 
 app.get('/bmi', (req, res) => {
-    try {
-        const { height, weight } = parseArguments([String(req.query.height),String(req.query.weight)]);
-        const bmi = calculateBmi(Number(height), Number(weight));
-        res.send(
-        {
-            weight,
-            height,
-            bmi
-        });
-    } catch (error: unknown) {
-    let errorMessage = 'Something bad happened.';
-    if (error instanceof Error) {
-        errorMessage += ' Error: ' + error.message;
-    }
-    res.send(errorMessage);
-    }
+  const { height, weight } = parseArguments([String(req.query.height),String(req.query.weight)]);
+  const bmi = calculateBmi(Number(height), Number(weight));
+  res.send(
+  {
+    weight,
+    height,
+    bmi
+  });
 });
 
 const PORT = 3003;
