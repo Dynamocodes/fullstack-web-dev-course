@@ -1,0 +1,21 @@
+POST http://localhost:3001/api/patients
+content-type: application/json
+
+{
+    "name": "Elias Hietanen",
+    "dateOfBirth": "1998-09-02",
+    "ssn": "250345-565M",
+    "gender": "male",
+    "occupation": "spatial engineer"
+}
+
+###
+POST http://localhost:3001/api/patients
+content-type: application/json
+
+{
+    "dateOfBirth": "1998-09-02",
+    "ssn": "250345-565M",
+    "gender": "male",
+    "occupation": "spatial engineer"
+}

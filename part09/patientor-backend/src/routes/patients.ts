@@ -1,6 +1,7 @@
 import express from 'express';
 import patientService from '../services/patientService';
 import { PatientEntry } from '../types';
+import { toNewPatient } from '../utils';
 
 
 
@@ -11,21 +12,24 @@ router.get('/', (_req, res) => {
 });
 
 router.post('/', (_req, res) => {
-    const { name, dateOfBirth, ssn, gender, occupation } = _req.body as {
-        name: string, 
-        dateOfBirth: string, 
-        ssn: string, 
-        gender: string, 
-        occupation: string
+    const entry = _req.body as {
+        name: unknown, 
+        dateOfBirth: unknown, 
+        ssn: unknown, 
+        gender: unknown, 
+        occupation: unknown
     };
-    const newPatientEntry : PatientEntry = patientService.addPatient(
-      name,
-      dateOfBirth,
-      ssn,
-      gender,
-      occupation
-    );
-    res.json(newPatientEntry);
+    
+    try{
+        const patientEntry = toNewPatient(entry);
+        const newPatientEntry : PatientEntry = patientService.addPatient(patientEntry);
+        res.json(newPatientEntry);
+    }catch(err){
+        //console.log(err);
+        res.status(401).json({error:`${err}`});
+    }
+    
+    
 });
 
 export default router;
