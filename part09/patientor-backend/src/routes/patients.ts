@@ -1,6 +1,6 @@
 import express from 'express';
 import patientService from '../services/patientService';
-import { PatientEntry } from '../types';
+import { Patient } from '../types';
 import { toNewPatient } from '../utils';
 
 
@@ -33,7 +33,7 @@ router.post('/', (_req, res) => {
     
     try{
         const patientEntry = toNewPatient(entry);
-        const newPatientEntry : PatientEntry = patientService.addPatient(patientEntry);
+        const newPatientEntry : Patient = patientService.addPatient(patientEntry);
         res.json(newPatientEntry);
     }catch(err){
         //console.log(err);

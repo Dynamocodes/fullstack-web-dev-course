@@ -54,7 +54,7 @@ type PatientFields = {
   dateOfBirth: unknown,
   ssn: unknown,
   gender: unknown,
-  occupation:unknown
+  occupation:unknown,
 };
 
 const toNewPatient = ({name, dateOfBirth, ssn, gender, occupation}: PatientFields) : NewPatientEntry => {
@@ -63,7 +63,8 @@ const toNewPatient = ({name, dateOfBirth, ssn, gender, occupation}: PatientField
     dateOfBirth: parseDate(dateOfBirth),
     ssn: parseSsn(ssn),
     gender: parseGender(gender),
-    occupation: parseOccupation(occupation)
+    occupation: parseOccupation(occupation),
+    entries: []
   };
 
   return newPatient;
