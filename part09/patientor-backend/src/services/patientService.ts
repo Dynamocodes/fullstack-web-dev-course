@@ -10,7 +10,6 @@ const getEntries = () : Array<Patient> => {
 
 const getEntry = (id:string) : Patient | undefined => {
     const patient = patients.find(patient => patient.id === id);
-    console.log(patient);
     return patient;
 };
 
