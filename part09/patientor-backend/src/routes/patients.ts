@@ -1,7 +1,7 @@
 import express from 'express';
 import patientService from '../services/patientService';
-import { Patient } from '../types';
-import { toNewPatient } from '../utils';
+import { EntryWithoutId, Patient, Entry } from '../types';
+import { toNewEntry, toNewPatient } from '../utils';
 
 
 
@@ -35,6 +35,32 @@ router.post('/', (_req, res) => {
         const patientEntry = toNewPatient(entry);
         const newPatientEntry : Patient = patientService.addPatient(patientEntry);
         res.json(newPatientEntry);
+    }catch(err){
+        res.status(401).json({error:`${err}`});
+    }
+    
+    
+});
+
+router.post('/:id/entries', (_req, res) => {
+    const { id } = _req.params as {id : string};
+    const entry = _req.body as {
+        type: unknown,
+        description: unknown, 
+        date: unknown, 
+        specialist: unknown, 
+        diagnosisCodes: unknown, 
+        healthCheckRating: unknown,
+        discharge: unknown,
+        employerName: unknown,
+        sickLeave: unknown
+
+    };
+    
+    try{
+        const newEntryWithoutId: EntryWithoutId = toNewEntry(entry);
+        const newEntry : Entry = patientService.addEntryToPatient(id, newEntryWithoutId);
+        res.json(newEntry);
     }catch(err){
         //console.log(err);
         res.status(401).json({error:`${err}`});
