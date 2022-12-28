@@ -102,4 +102,5 @@ const PatientView = () => {
   );
 };
 
+
 export default PatientView;
