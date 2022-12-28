@@ -106,9 +106,6 @@ const parseDiagnosisCodes = (diagnosisCodes : unknown) : Array<DiagnosisEntry['c
   if(!Array.isArray(diagnosisCodes)){
     throw new Error('Incorrect diagnosis codes');
   }
-  if(diagnosisCodes.length === 0){
-    throw new Error('Incorect diagnosis codes : the array should contain at least 1 code (0)');
-  }
   if(!diagnosisCodes.reduce((acc: boolean, val:unknown) => {
     return acc && isString(val);
   }, true)){
@@ -123,7 +120,8 @@ const isHealthCheckRating = (param: any): param is HealthCheckRating => {
 };
 
 const parseHealthCheckRating = (healthCheckRating: unknown) : HealthCheckRating => {
-  if (!healthCheckRating || !isString(healthCheckRating) || !isHealthCheckRating(healthCheckRating)) {
+  console.log(healthCheckRating);
+  if (!healthCheckRating || !isHealthCheckRating(healthCheckRating)) {
     throw new Error('Incorrect or missing healthCheckRating: ' + healthCheckRating);
   }
   return healthCheckRating;
