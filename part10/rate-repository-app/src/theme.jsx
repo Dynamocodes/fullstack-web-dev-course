@@ -6,7 +6,9 @@ const theme = {
       highContrast: '#ffffff',
     },
     backgroundColors:{
-      dark:"#24292e",  
+      dark:"#24292e",
+      backgroundSecondary: '#e1e4e8',
+      backgroundPrimary: '#ffffff'  
     },
     fontSizes: {
       body: 14,
