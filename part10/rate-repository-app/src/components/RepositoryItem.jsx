@@ -13,6 +13,7 @@ const RepositoryItem = ({item}) => {
     },
     topRightContainer:{
       padding: 5,
+      flexShrink: 1,
     },
     bottomContainer:{
       display: 'flex',
