@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
 import Text from './Text';
+import useSignIn from '../hooks/useSignIn'
 
 import * as yup from 'yup';
 
@@ -37,10 +38,6 @@ const styles = StyleSheet.create({
 
 })
 
-const signIn = (username, password) => {
-  return `${username} and ${password} are correct credentials, signed in!`
-};
-
 const SignInForm = ({ onSubmit }) => {
     return (
       <View style={styles.container}>
@@ -63,12 +60,16 @@ const SignInForm = ({ onSubmit }) => {
   });
   
 const SignInPage = () => {
-  const onSubmit = values => {
-    const username = values.username
-    const password = values.password
+  const [signIn] = useSignIn();
 
-    if (username && password ) {
-      console.log(`sign in status: ${signIn(username, password)}`);
+  const onSubmit = async values => {
+    const { username, password } = values;
+
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
     }
   };
 
