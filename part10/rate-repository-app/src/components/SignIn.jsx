@@ -1,4 +1,5 @@
 import { Pressable, View, StyleSheet } from 'react-native';
+import { useNavigate } from "react-router-native";
 import { Formik } from 'formik';
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
@@ -18,12 +19,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems:'stretch',
     padding:5,
-    
   },
   flexItems:{
     padding:15,
     margin: 5,
-    
   },
   button:{
     backgroundColor: theme.colors.primary,
@@ -35,7 +34,6 @@ const styles = StyleSheet.create({
     borderRadius:5,
     color: theme.colors.highContrast
   },
-
 })
 
 const SignInForm = ({ onSubmit }) => {
@@ -60,14 +58,17 @@ const SignInForm = ({ onSubmit }) => {
   });
   
 const SignInPage = () => {
+  const navigate = useNavigate();
   const [signIn] = useSignIn();
 
   const onSubmit = async values => {
     const { username, password } = values;
 
     try {
-      const { data } = await signIn({ username, password });
-      console.log(data);
+      const data  = await signIn({ username, password });
+      if(data){
+        navigate('/')
+      }
     } catch (e) {
       console.log(e);
     }
