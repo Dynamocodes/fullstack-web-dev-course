@@ -54,11 +54,11 @@ const RepositoryItem = ({item}) => {
     if(num >= 1000){
       return `${Math.round((num/1000) * 10)/10}k`
     }
-    return `stars`
+    return num
   }
 
   return (
-    <View style={styles.mainContainer}>
+    <View testID="repositoryItem" style={styles.mainContainer}>
       <View style={styles.topContainer}>
         <View style={styles.topLeftContainer}>
           <Image
