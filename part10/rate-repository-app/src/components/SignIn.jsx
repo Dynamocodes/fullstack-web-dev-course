@@ -37,25 +37,39 @@ const styles = StyleSheet.create({
 })
 
 const SignInForm = ({ onSubmit }) => {
-    return (
-      <View style={styles.container}>
-        <FormikTextInput style={styles.flexItems} name="username" placeholder="Username" />
-        <FormikTextInput secureTextEntry style={styles.flexItems} name="password" placeholder="Password" />
-        <Pressable style={styles.button} onPress={onSubmit}>
-          <Text color='highContrast' fontWeight='bold'>Sign In</Text>
-        </Pressable>
-      </View>
-    );
-  };
+  return (
+    <View style={styles.container}>
+      <FormikTextInput style={styles.flexItems} name="username" placeholder="Username" />
+      <FormikTextInput secureTextEntry style={styles.flexItems} name="password" placeholder="Password" />
+      <Pressable style={styles.button} onPress={onSubmit}>
+        <Text color='highContrast' fontWeight='bold'>Sign In</Text>
+      </Pressable>
+    </View>
+  );
+};
 
-  const validationSchema = yup.object().shape({
-    username: yup
-      .string()
-      .required('username is required'),
-    password: yup
-      .string()
-      .required('password is required'),
-  });
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .required('username is required'),
+  password: yup
+    .string()
+    .required('password is required'),
+});
+
+export const SignInContainer = ({onSubmit}) => {
+
+  return (
+    <Formik 
+      initialValues={initialValues} 
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}>
+      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+    </Formik>
+  );
+}
+
+
   
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -74,14 +88,9 @@ const SignInPage = () => {
     }
   };
 
-  return (
-    <Formik 
-      initialValues={initialValues} 
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}>
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-    </Formik>
-  );
+  return(
+    <SignInContainer onSubmit={onSubmit}/>
+  )
 };
 
 export default SignInPage;
