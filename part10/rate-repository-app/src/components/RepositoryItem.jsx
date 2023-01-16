@@ -1,8 +1,10 @@
-import { View, Image, StyleSheet} from 'react-native'
+import { View, Image, StyleSheet, Pressable} from 'react-native'
+import { useNavigate } from 'react-router-native';
 import Text from './Text'
 import theme from '../theme';
 
 const RepositoryItem = ({item}) => {
+  const navigate = useNavigate()
 
   const styles = StyleSheet.create({
     topContainer:{
@@ -57,43 +59,49 @@ const RepositoryItem = ({item}) => {
     return num
   }
 
+  const pressRepository = (id) => {
+    navigate(`/${id}`);
+  }
+
   return (
-    <View testID="repositoryItem" style={styles.mainContainer}>
-      <View style={styles.topContainer}>
-        <View style={styles.topLeftContainer}>
-          <Image
-          source={{
-            uri:`${item.ownerAvatarUrl}`
-          }}
-          style={styles.tinyLogo}/>
+    <Pressable onPress={() => {pressRepository(item.id)}}>
+      <View testID="repositoryItem" style={styles.mainContainer}>
+        <View style={styles.topContainer}>
+          <View style={styles.topLeftContainer}>
+            <Image
+            source={{
+              uri:`${item.ownerAvatarUrl}`
+            }}
+            style={styles.tinyLogo}/>
+          </View>
+          <View style={styles.topRightContainer}>
+            <Text fontWeight="bold">{item.fullName}</Text>
+            <Text color="textSecondary">{item.description}</Text>
+            <View style={styles.tag}>
+              <Text color="highContrast" >{item.language}</Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.topRightContainer}>
-          <Text fontWeight="bold">{item.fullName}</Text>
-          <Text color="textSecondary">{item.description}</Text>
-          <View style={styles.tag}>
-            <Text color="highContrast" >{item.language}</Text>
+        <View style={styles.bottomContainer}>
+          <View style={styles.bottomSubContainer}>
+            <Text fontWeight='bold'>{formatAmount(item.stargazersCount)}</Text>
+            <Text color="textSecondary">Stars</Text>
+          </View>
+          <View style={styles.bottomSubContainer}>
+            <Text fontWeight='bold'>{formatAmount(item.forksCount)}</Text>
+            <Text color="textSecondary">Forks</Text>
+          </View>
+          <View style={styles.bottomSubContainer}>
+            <Text fontWeight='bold'>{item.reviewCount}</Text>
+            <Text color="textSecondary">Reviews</Text>
+          </View>
+          <View style={styles.bottomSubContainer}>
+          <Text fontWeight='bold'>{item.ratingAverage}</Text>
+            <Text color="textSecondary">Rating</Text>
           </View>
         </View>
       </View>
-      <View style={styles.bottomContainer}>
-        <View style={styles.bottomSubContainer}>
-          <Text fontWeight='bold'>{formatAmount(item.stargazersCount)}</Text>
-          <Text color="textSecondary">Stars</Text>
-        </View>
-        <View style={styles.bottomSubContainer}>
-          <Text fontWeight='bold'>{formatAmount(item.forksCount)}</Text>
-          <Text color="textSecondary">Forks</Text>
-        </View>
-        <View style={styles.bottomSubContainer}>
-          <Text fontWeight='bold'>{item.reviewCount}</Text>
-          <Text color="textSecondary">Reviews</Text>
-        </View>
-        <View style={styles.bottomSubContainer}>
-        <Text fontWeight='bold'>{item.ratingAverage}</Text>
-          <Text color="textSecondary">Rating</Text>
-        </View>
-      </View>
-    </View>
+    </Pressable>
   )
 }
 
