@@ -4,7 +4,7 @@ import Text from './Text'
 import theme from '../theme';
 
 const RepositoryItem = ({item}) => {
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
 
   const styles = StyleSheet.create({
     topContainer:{
@@ -60,7 +60,7 @@ const RepositoryItem = ({item}) => {
   }
 
   const pressRepository = (id) => {
-    navigate(`/${id}`);
+  //  navigate(`/${id}`);
   }
 
   return (
