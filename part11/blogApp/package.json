@@ -1,0 +1,24 @@
+{
+  "name": "blogApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-install": "cd frontend && npm ci",
+    "server-install": "cd backend && npm ci",
+    "start-client": "cd frontend && npm start",
+    "start-server:test": "cd backend && npm run start:test",
+    "client-build": "cd frontend && npm run build",
+    "start-e2e": "npx concurrently --kill-others --success first \"npm run start-server:test\" \"npm run start-client\" \"npx wait-on http://localhost:3003 && npm run e2e\"",
+    "e2e": "cd frontend && npm run e2e",
+    "build": "npm run client-build",
+    "start": "concurrently \"cd frontend && npm start\" \"cd backend && npm run dev\"",
+    "start-prod": "npm run build && cd backend && npm start"
+  },
+  "author": "elias hietanen",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}

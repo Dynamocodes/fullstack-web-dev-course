@@ -1,0 +1,27 @@
+POST http://localhost:3003/api/users/
+content-type: application/json
+
+{
+    "username": "ehietane",
+    "name": "Elias Hietanen",
+    "password": "password"
+}
+###
+POST http://localhost:3003/api/users/
+content-type: application/json
+
+{
+    "username": "dynamo",
+    "name": "Elien Hietanas",
+    "password": "password"
+}
+
+###
+POST http://localhost:3003/api/users/
+content-type: application/json
+
+{
+    "username": "pynamoof",
+    "name": "Elien Hietanas",
+    "password": "password"
+}

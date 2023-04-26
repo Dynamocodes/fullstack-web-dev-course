@@ -1,0 +1,81 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+      # note that your "main" branch might be called main instead of master
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize] 
+
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: npm install
+        run: npm install
+      - name: npm install frontend
+        run: cd frontend && npm install
+      - name: npm install backend
+        run: cd backend && npm install
+      - name: e2e tests
+        uses: cypress-io/github-action@v4
+        with:
+          build: npm run build
+          start: npm run start-backend:test
+          wait-on: http://localhost:3003
+          working-directory: frontend
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET:  ${{ secrets.SECRET }}
+      # Fly deployment steps
+      - name: Setup Flyctl
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip') }}
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy to Fly.io
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip') }}
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip') }}
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: anothrNick/github-tag-action@1.61.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+  
+  send_discord_notification_success:
+    needs: [tag_release]
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip') }}
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Discord Webhook Notify
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        with:
+          webhookURL: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: info
+          username: 'Dynamo'
+          details: 'A new deployment for the blogApp has been made successfully, and a new version has been tagged!'
+
+  send_discord_notification_failure:
+    needs: [simple_deployment_pipeline]
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip') && failure() }}
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Discord Webhook Notify
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        with:
+          webhookURL: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: error
+          username: 'Dynamo'
+          details: 'A new deployment for the blogApp application failed!'
