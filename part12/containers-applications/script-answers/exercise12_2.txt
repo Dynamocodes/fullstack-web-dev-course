@@ -1,0 +1,14 @@
+Script started on Wed Apr 26 19:21:14 2023
+Restored session: Wed Apr 26 19:14:37 CEST 2023
+[1m[7m%[27m[1m[0m                                                                                ]7;file://eliass-macbook-pro.home/Users/dynamo/Documents/school-work/helsingin-yliopisto/fullstack-web-dev/fullstack-web-dev-course/part12/containers-applications[0m[27m[24m[Jdynamo@eliass-macbook-pro containers-applications % [K[?2004hddocker container run -it ubu [Knntu bash[?2004l
+[?2004h]0;root@ca285c905610: /root@ca285c905610:/# [K]0;root@ca285c905610: /root@ca285c905610:/# mkdir     md kdire  /urs  sr/src/app
+[?2004l[?2004h]0;root@ca285c905610: /root@ca285c905610:/# touch : /usr/src/app/index.js
+[?2004l[?2004h]0;root@ca285c905610: /root@ca285c905610:/# [Kexit
+[?2004lexit
+[1m[7m%[27m[1m[0m                                                                                ]7;file://eliass-macbook-pro.home/Users/dynamo/Documents/school-work/helsingin-yliopisto/fullstack-web-dev/fullstack-web-dev-course/part12/containers-applications[0m[27m[24m[Jdynamo@eliass-macbook-pro containers-applications % [K[?2004heexit[?2004l
+
+Saving session...
+...saving history...truncating history files...
+...completed.
+
+Script done on Wed Apr 26 19:22:27 2023
