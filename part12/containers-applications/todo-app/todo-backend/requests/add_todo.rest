@@ -2,6 +2,6 @@ POST http://localhost:3000/todos/
 content-type: application/json
 
 {
-    "text":"do an exercise",
+    "text":"another last final (haha) todo",
     "done": false
 }
