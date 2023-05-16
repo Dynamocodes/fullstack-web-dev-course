@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  bloglist-backend:
+    image: bloglist-backend
+    build:
+      context: ./bloglist-backend/
+      dockerfile: ./bloglist-backend/Dockerfile
+    ports:
+      - 3001:3001
+    container_name: bloglist-backend
+  bloglist-frontend:
+    image: bloglist-frontend
+    build:
+      context: ./bloglist-frontend/ # The context will pick this directory as the "build context"
+      dockerfile: ./bloglist-frontend/Dockerfile # This will simply tell which dockerfile to read
+    ports:
+      - 3000:3000
+    container_name: bloglist-frontend # This will name the container bloglist-frontend-dev

@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  bloglist-backend-dev:
+    image: bloglist-backend-dev
+    build:
+      context: ./bloglist-backend/
+      dockerfile: ./bloglist-backend/dev.Dockerfile
+    volumes:
+      - ./bloglist-backend/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3001:3001
+    container_name: bloglist-backend-dev
+  bloglist-frontend-dev:
+    image: bloglist-frontend-dev
+    build:
+      context: ./bloglist-frontend/ # The context will pick this directory as the "build context"
+      dockerfile: ./bloglist-frontend/dev.Dockerfile # This will simply tell which dockerfile to read
+    volumes:
+      - ./bloglist-frontend/:/usr/src/app # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
+    ports:
+      - 3000:3000
+    container_name: bloglist-frontend-dev # This will name the container bloglist-frontend-dev

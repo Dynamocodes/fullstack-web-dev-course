@@ -1,6 +1,6 @@
 services:
   app:
-    image: todo-frontend-dev
+    image: bloglist-frontend-dev
     build:
       context: . # The context will pick this directory as the "build context"
       dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
@@ -8,4 +8,4 @@ services:
       - ./:/usr/src/app # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
     ports:
       - 3000:3000
-    container_name: todo-frontend-dev # This will name the container todo-frontend-dev
+    container_name: bloglist-frontend-dev # This will name the container bloglist-frontend-dev
